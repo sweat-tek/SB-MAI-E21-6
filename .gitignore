@@ -1,2 +1,5 @@
 JHotDraw/target/
 /JHotDraw/nbactions.xml
+.idea/
+*.iml
+out/
