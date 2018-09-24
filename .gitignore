@@ -3,3 +3,5 @@ JHotDraw/target/
 .idea/
 *.iml
 out/
+JHotDraw/FeatureTraces/
+JHotDraw/.ij/
