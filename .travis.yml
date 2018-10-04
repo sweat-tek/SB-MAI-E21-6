@@ -1,4 +1,4 @@
 language: java
 sudo: false
 before_script: cd JHotDraw
-script: mvn clean verify
+script: mvn clean install
