@@ -1,1 +1,1 @@
-# SB5-MAI-E18
+# SB5-MAI
