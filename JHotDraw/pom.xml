@@ -20,7 +20,7 @@
         <repository>
             <id>git-corfixen</id>
             <name>corfixen's Git based repo</name>
-            <url>https://github.com/sweat-tek/SB5-MAI-Maven/raw/repository/</url>
+            <url>https://github.com/sweat-tek/MavenRepository/raw/repository/</url>
         </repository>
     </repositories>
     <dependencies>
@@ -34,5 +34,12 @@
             <artifactId>aspectjweaver</artifactId>
             <version>1.8.6</version>
         </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency> 
     </dependencies>   
  </project>
