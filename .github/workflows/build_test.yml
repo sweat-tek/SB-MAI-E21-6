@@ -16,14 +16,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - name: list
-        run: ls
-
-      - name: Move dir 
-        run: cd JHotDraw/
-
-      - name: list
-        run: ls
+        working-directory: ./JHotDraw
 
       - name: Test with Maven
         run: mvn test 
