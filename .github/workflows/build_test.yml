@@ -20,7 +20,7 @@ jobs:
         run: ls
 
       - name: Move dir 
-        run: cd JHotDraw
+        run: cd JHotDraw/
 
       - name: list
         run: ls
