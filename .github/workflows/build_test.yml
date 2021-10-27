@@ -16,10 +16,11 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-        working-directory: ./JHotDraw
 
       - name: Test with Maven
+        working-directory: ./JHotDraw
         run: mvn test 
 
       - name: Build with Maven
+        working-directory: ./JHotDraw
         run: mvn --batch-mode --update-snapshots verify 
