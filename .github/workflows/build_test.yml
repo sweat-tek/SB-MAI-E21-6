@@ -16,6 +16,9 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
+      - name: list
+        run: /bin/bash ls
+
       - name: Move dir 
         run: cd JHotDraw
 
