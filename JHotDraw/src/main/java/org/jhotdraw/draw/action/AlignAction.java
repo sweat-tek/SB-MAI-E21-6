@@ -36,10 +36,12 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public abstract class AlignAction extends AbstractSelectedAction {
     
-    /** Creates a new instance. */
+    /** Creates a new instance.
+     * @param editor */
     public AlignAction(DrawingEditor editor) {
         super(editor);
     }
+    @Override
     public void updateEnabledState() {
         if (getView() != null) {
             setEnabled(getView().isEnabled() &&
@@ -51,6 +53,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
     
     @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         CompositeEdit edit = new CompositeEdit(labels.getString("edit.align.text"));
         fireUndoableEditHappened(edit);
