@@ -73,6 +73,12 @@ public final class AlignToolBar extends AbstractToolBar {
         button.setText(null);
         panel.add(button, gbc);
     }
+    
+    private void configureGBC(GridBagConstraints gbc, int gridx, int gridy, Insets insets) {
+        gbc.gridx = gridx;
+        gbc.gridy = gridy;
+        gbc.insets = insets;
+    }
 
     @Override
     @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
@@ -83,30 +89,24 @@ public final class AlignToolBar extends AbstractToolBar {
             p = new JPanel();
             configurePanel(p);
             GridBagConstraints gbc = new GridBagConstraints();
-            AbstractButton btn;
-            
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
 
-            gbc.gridy = 0;
+            configureGBC(gbc, 0, 0, new Insets(0, 0, 0, 0));
             configureButton(p, new AlignAction.West(editor, labels), gbc, Boolean.FALSE);
 
-            gbc.insets = new Insets(0, 3, 0, 0);
+            configureGBC(gbc, 1, 0, new Insets(0, 3, 0, 0));
             configureButton(p, new AlignAction.East(editor, labels), gbc, Boolean.TRUE);
 
-            gbc.gridy = 1;
-            gbc.insets = new Insets(3, 0, 0, 0);
+            configureGBC(gbc, 0, 1, new Insets(3, 0, 0, 0));
             configureButton(p, new AlignAction.North(editor, labels), gbc, Boolean.TRUE);
 
-            gbc.insets = new Insets(3, 3, 0, 0);
+            configureGBC(gbc, 1, 1, new Insets(3, 3, 0, 0));
             configureButton(p, new AlignAction.South(editor, labels), gbc, Boolean.TRUE);
-
-            gbc.gridx = 0;
-            gbc.gridy = 2;
-            gbc.insets = new Insets(3, 0, 0, 0);
+            
+            configureGBC(gbc, 0, 2, new Insets(3, 0, 0, 0));
             configureButton(p, new AlignAction.Horizontal(editor, labels), gbc, Boolean.TRUE);
 
-            gbc.gridx = 1;
-            gbc.insets = new Insets(3, 3, 0, 0);
+            configureGBC(gbc, 1, 2, new Insets(3, 3, 0, 0));
             configureButton(p, new AlignAction.Vertical(editor, labels), gbc, Boolean.TRUE);
         }
         
