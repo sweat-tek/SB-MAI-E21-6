@@ -57,6 +57,58 @@ public final class AlignToolBar extends AbstractToolBar {
             displayer.setVisibleIfCreationTool(false);
         }
     }
+
+    @Override
+    @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
+    protected JComponent createDisclosedComponent(int state) {
+        JPanel p = null;
+
+        if (state == 1) {
+            p = new JPanel();
+            configurePanel(p);
+            GridBagConstraints gbc = new GridBagConstraints();
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+
+            configureNorth(p, gbc, labels);
+            configureSouth(p, gbc, labels);
+            configureEast(p, gbc, labels);
+            configureWest(p, gbc, labels);
+            configureHorizontal(p, gbc, labels);
+            configureVertical(p, gbc, labels); 
+        }
+        
+        return p;
+    }
+    
+    private void configureNorth(JPanel p, GridBagConstraints gbc, ResourceBundleUtil labels) {
+        configureGBC(gbc, 0, 1, new Insets(3, 0, 0, 0));
+        configureButton(p, new AlignAction.North(editor, labels), gbc, Boolean.TRUE);
+    }
+    
+    private void configureSouth(JPanel p, GridBagConstraints gbc, ResourceBundleUtil labels) {
+        configureGBC(gbc, 1, 1, new Insets(3, 3, 0, 0));
+        configureButton(p, new AlignAction.South(editor, labels), gbc, Boolean.TRUE);
+    }
+    
+    private void configureEast(JPanel p, GridBagConstraints gbc, ResourceBundleUtil labels) {
+        configureGBC(gbc, 1, 0, new Insets(0, 3, 0, 0));
+        configureButton(p, new AlignAction.East(editor, labels), gbc, Boolean.TRUE);
+    }
+    
+    private void configureWest(JPanel p, GridBagConstraints gbc, ResourceBundleUtil labels) {
+        configureGBC(gbc, 0, 0, new Insets(0, 0, 0, 0));
+        configureButton(p, new AlignAction.West(editor, labels), gbc, Boolean.FALSE);
+    }
+    
+    private void configureHorizontal(JPanel p, GridBagConstraints gbc, ResourceBundleUtil labels) {
+        configureGBC(gbc, 0, 2, new Insets(3, 0, 0, 0));
+        configureButton(p, new AlignAction.Horizontal(editor, labels), gbc, Boolean.TRUE);
+    }
+    
+    private void configureVertical(JPanel p, GridBagConstraints gbc, ResourceBundleUtil labels) {
+        configureGBC(gbc, 1, 2, new Insets(3, 3, 0, 0));
+        configureButton(p, new AlignAction.Vertical(editor, labels), gbc, Boolean.TRUE);
+    }
     
     private void configurePanel(JPanel panel) {
         GridBagLayout layout = new GridBagLayout();
@@ -78,39 +130,6 @@ public final class AlignToolBar extends AbstractToolBar {
         gbc.gridx = gridx;
         gbc.gridy = gridy;
         gbc.insets = insets;
-    }
-
-    @Override
-    @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
-    protected JComponent createDisclosedComponent(int state) {
-        JPanel p = null;
-
-        if (state == 1) {
-            p = new JPanel();
-            configurePanel(p);
-            GridBagConstraints gbc = new GridBagConstraints();
-            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
-            configureGBC(gbc, 0, 0, new Insets(0, 0, 0, 0));
-            configureButton(p, new AlignAction.West(editor, labels), gbc, Boolean.FALSE);
-
-            configureGBC(gbc, 1, 0, new Insets(0, 3, 0, 0));
-            configureButton(p, new AlignAction.East(editor, labels), gbc, Boolean.TRUE);
-
-            configureGBC(gbc, 0, 1, new Insets(3, 0, 0, 0));
-            configureButton(p, new AlignAction.North(editor, labels), gbc, Boolean.TRUE);
-
-            configureGBC(gbc, 1, 1, new Insets(3, 3, 0, 0));
-            configureButton(p, new AlignAction.South(editor, labels), gbc, Boolean.TRUE);
-            
-            configureGBC(gbc, 0, 2, new Insets(3, 0, 0, 0));
-            configureButton(p, new AlignAction.Horizontal(editor, labels), gbc, Boolean.TRUE);
-
-            configureGBC(gbc, 1, 2, new Insets(3, 3, 0, 0));
-            configureButton(p, new AlignAction.Vertical(editor, labels), gbc, Boolean.TRUE);
-        }
-        
-        return p;
     }
 
     /** This method is called from within the constructor to
