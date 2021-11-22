@@ -33,7 +33,7 @@ import org.jhotdraw.gui.plaf.palette.*;
  * <br>1.1 2008-03-26 Don't draw button borders. 
  * <br>1.0 May 1, 2007 Created.
  */
-public class AlignToolBar extends AbstractToolBar {
+public final class AlignToolBar extends AbstractToolBar {
 
     private SelectionComponentDisplayer displayer;
 
@@ -63,69 +63,66 @@ public class AlignToolBar extends AbstractToolBar {
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
 
-        switch (state) {
-            case 1:
-                 {
-                    p = new JPanel();
-                    p.setOpaque(false);
+        if (state == 1) {
+            p = new JPanel();
+            p.setOpaque(false);
 
-                    p.setBorder(new EmptyBorder(5, 5, 5, 8));
-                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+            p.setBorder(new EmptyBorder(5, 5, 5, 8));
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
 
-                    GridBagLayout layout = new GridBagLayout();
-                    p.setLayout(layout);
+            GridBagLayout layout = new GridBagLayout();
+            p.setLayout(layout);
 
-                    GridBagConstraints gbc;
-                    AbstractButton btn;
+            GridBagConstraints gbc;
+            AbstractButton btn;
 
-                    gbc = new GridBagConstraints();
-                    gbc.gridy = 0;
-                    btn = new JButton(new AlignAction.West(editor, labels));
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    btn.setText(null);
-                    p.add(btn, gbc);
+            gbc = new GridBagConstraints();
+            gbc.gridy = 0;
+            btn = new JButton(new AlignAction.West(editor, labels));
+            btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+            btn.setText(null);
+            p.add(btn, gbc);
 
-                    gbc.insets = new Insets(0, 3, 0, 0);
-                    btn = new JButton(new AlignAction.East(editor, labels));
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    btn.putClientProperty("hideActionText", Boolean.TRUE);
-                    btn.setText(null);
-                    p.add(btn, gbc);
+            gbc.insets = new Insets(0, 3, 0, 0);
+            btn = new JButton(new AlignAction.East(editor, labels));
+            btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+            btn.putClientProperty("hideActionText", Boolean.TRUE);
+            btn.setText(null);
+            p.add(btn, gbc);
 
-                    gbc.gridy = 1;
-                    gbc.insets = new Insets(3, 0, 0, 0);
-                    btn = new JButton(new AlignAction.North(editor, labels));
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    btn.putClientProperty("hideActionText", Boolean.TRUE);
-                    btn.setText(null);
-                    p.add(btn, gbc);
+            gbc.gridy = 1;
+            gbc.insets = new Insets(3, 0, 0, 0);
+            btn = new JButton(new AlignAction.North(editor, labels));
+            btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+            btn.putClientProperty("hideActionText", Boolean.TRUE);
+            btn.setText(null);
+            p.add(btn, gbc);
 
-                    gbc.insets = new Insets(3, 3, 0, 0);
-                    btn = new JButton(new AlignAction.South(editor, labels));
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    btn.putClientProperty("hideActionText", Boolean.TRUE);
-                    btn.setText(null);
-                    p.add(btn, gbc);
+            gbc.insets = new Insets(3, 3, 0, 0);
+            btn = new JButton(new AlignAction.South(editor, labels));
+            btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+            btn.putClientProperty("hideActionText", Boolean.TRUE);
+            btn.setText(null);
+            p.add(btn, gbc);
 
-                    gbc.gridx = 0;
-                    gbc.gridy = 2;
-                    gbc.insets = new Insets(3, 0, 0, 0);
-                    btn = new JButton(new AlignAction.Horizontal(editor, labels));
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    btn.putClientProperty("hideActionText", Boolean.TRUE);
-                    btn.setText(null);
-                    p.add(btn, gbc);
+            gbc.gridx = 0;
+            gbc.gridy = 2;
+            gbc.insets = new Insets(3, 0, 0, 0);
+            btn = new JButton(new AlignAction.Horizontal(editor, labels));
+            btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+            btn.putClientProperty("hideActionText", Boolean.TRUE);
+            btn.setText(null);
+            p.add(btn, gbc);
 
-                    gbc.gridx = 1;
-                    gbc.insets = new Insets(3, 3, 0, 0);
-                    btn = new JButton(new AlignAction.Vertical(editor, labels));
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    btn.putClientProperty("hideActionText", Boolean.TRUE);
-                    btn.setText(null);
-                    p.add(btn, gbc);
-                }
-                break;
+            gbc.gridx = 1;
+            gbc.insets = new Insets(3, 3, 0, 0);
+            btn = new JButton(new AlignAction.Vertical(editor, labels));
+            btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+            btn.putClientProperty("hideActionText", Boolean.TRUE);
+            btn.setText(null);
+            p.add(btn, gbc);
         }
+        
         return p;
     }
 
