@@ -75,8 +75,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
      */
     protected Rectangle2D.Double getSelectionBounds() {
         Rectangle2D.Double bounds = null;
-        for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
-            Figure f = (Figure) i.next();
+        for (Figure f : getView().getSelectedFigures()) {
             if (bounds == null) {
                 bounds = f.getBounds();
             } else {
@@ -100,11 +99,10 @@ public abstract class AlignAction extends AbstractSelectedAction {
         @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double y = selectionBounds.y;
-            for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
-                Figure f = (Figure) i.next();
+            getView().getSelectedFigures().forEach(f -> {
                 Rectangle2D.Double b = f.getBounds();
                 super.performAlignment(f, 0, y - b.y);
-           }
+            });
         }
     }
     
@@ -122,11 +120,10 @@ public abstract class AlignAction extends AbstractSelectedAction {
         @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double x = selectionBounds.x + selectionBounds.width;
-            for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
-                Figure f = (Figure) i.next();
+            getView().getSelectedFigures().forEach(f -> {
                 Rectangle2D.Double b = f.getBounds();
                 super.performAlignment(f, x - b.x - b.width, 0);
-           }
+            });
         }
     }
     
@@ -144,11 +141,10 @@ public abstract class AlignAction extends AbstractSelectedAction {
         @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double x = selectionBounds.x;
-            for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
-                Figure f = (Figure) i.next();
+            getView().getSelectedFigures().forEach(f -> {
                 Rectangle2D.Double b = f.getBounds();
                 super.performAlignment(f, x - b.x, 0);
-            }
+            });
         }
     }
     
@@ -166,11 +162,10 @@ public abstract class AlignAction extends AbstractSelectedAction {
         @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double y = selectionBounds.y + selectionBounds.height;
-            for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
-                Figure f = (Figure) i.next();
+            getView().getSelectedFigures().forEach(f -> {
                 Rectangle2D.Double b = f.getBounds();
                 super.performAlignment(f, 0, y - b.y - b.height);
-            }
+            });
         }
     }
     
@@ -188,11 +183,10 @@ public abstract class AlignAction extends AbstractSelectedAction {
         @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double y = selectionBounds.y + selectionBounds.height / 2;
-            for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
-                Figure f = (Figure) i.next();
+            getView().getSelectedFigures().forEach(f -> {
                 Rectangle2D.Double b = f.getBounds();
                 super.performAlignment(f, 0, y - b.y - b.height / 2);
-            }
+            });
         }
     }
     
@@ -210,11 +204,10 @@ public abstract class AlignAction extends AbstractSelectedAction {
         @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double x = selectionBounds.x + selectionBounds.width / 2;
-            for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
-                Figure f = (Figure) i.next();
+            getView().getSelectedFigures().forEach(f -> {
                 Rectangle2D.Double b = f.getBounds();
                 super.performAlignment(f, x - b.x - b.width / 2, 0);
-            }
+            });
         }
     }
 }
