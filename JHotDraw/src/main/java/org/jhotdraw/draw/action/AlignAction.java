@@ -49,12 +49,24 @@ public abstract class AlignAction extends AbstractSelectedAction {
             setEnabled(false);
         }
     }
+    
     @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
     public void actionPerformed(java.awt.event.ActionEvent e) {
         CompositeEdit edit = new CompositeEdit(labels.getString("edit.align.text"));
         fireUndoableEditHappened(edit);
         alignFigures(getView().getSelectedFigures(), getSelectionBounds());
         fireUndoableEditHappened(edit);
+    }
+    
+    private void performAlignment(Figure figure, double translateX, double translateY) {
+        if (figure.isTransformable()) {
+            figure.willChange();
+            AffineTransform tx = new AffineTransform();
+            tx.translate(translateX, translateY);
+            figure.transform(tx);
+            figure.changed();
+            fireUndoableEditHappened(new TransformEdit(figure, tx));
+        }
     }
     protected abstract void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds);
     
@@ -84,23 +96,18 @@ public abstract class AlignAction extends AbstractSelectedAction {
             labels.configureAction(this, "edit.alignNorth");
         }
 
+        @Override
         @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double y = selectionBounds.y;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
                 Figure f = (Figure) i.next();
-                if (f.isTransformable()) {
-                f.willChange();
                 Rectangle2D.Double b = f.getBounds();
-                AffineTransform tx = new AffineTransform();
-                tx.translate(0, y - b.y);
-                f.transform(tx);
-                 f.changed();
-                fireUndoableEditHappened(new TransformEdit(f, tx));
-                }
+                super.performAlignment(f, 0, y - b.y);
            }
         }
     }
+    
     public static class East extends AlignAction {
         public East(DrawingEditor editor) {
             super(editor);
@@ -111,23 +118,18 @@ public abstract class AlignAction extends AbstractSelectedAction {
             labels.configureAction(this, "edit.alignEast");
         }
 
+        @Override
         @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double x = selectionBounds.x + selectionBounds.width;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
                 Figure f = (Figure) i.next();
-                if (f.isTransformable()) {
-                f.willChange();
                 Rectangle2D.Double b = f.getBounds();
-                AffineTransform tx = new AffineTransform();
-                tx.translate(x - b.x - b.width, 0);
-                f.transform(tx);
-                 f.changed();
-                fireUndoableEditHappened(new TransformEdit(f, tx));
-                }
+                super.performAlignment(f, x - b.x - b.width, 0);
            }
         }
     }
+    
     public static class West extends AlignAction {
         public West(DrawingEditor editor) {
             super(editor);
@@ -138,23 +140,18 @@ public abstract class AlignAction extends AbstractSelectedAction {
             labels.configureAction(this, "edit.alignWest");
         }
 
+        @Override
         @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double x = selectionBounds.x;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
                 Figure f = (Figure) i.next();
-                if (f.isTransformable()) {
-                f.willChange();
                 Rectangle2D.Double b = f.getBounds();
-                AffineTransform tx = new AffineTransform();
-                tx.translate(x - b.x, 0);
-                f.transform(tx);
-                f.changed();
-                fireUndoableEditHappened(new TransformEdit(f, tx));
-                }
+                super.performAlignment(f, x - b.x, 0);
             }
         }
     }
+    
     public static class South extends AlignAction {
         public South(DrawingEditor editor) {
             super(editor);
@@ -165,23 +162,18 @@ public abstract class AlignAction extends AbstractSelectedAction {
             labels.configureAction(this, "edit.alignSouth");
         }
 
+        @Override
         @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double y = selectionBounds.y + selectionBounds.height;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
                 Figure f = (Figure) i.next();
-                if (f.isTransformable()) {
-                f.willChange();
                 Rectangle2D.Double b = f.getBounds();
-                AffineTransform tx = new AffineTransform();
-                tx.translate(0, y - b.y - b.height);
-                f.transform(tx);
-                f.changed();
-                fireUndoableEditHappened(new TransformEdit(f, tx));
-                }
+                super.performAlignment(f, 0, y - b.y - b.height);
             }
         }
     }
+    
     public static class Vertical extends AlignAction {
         public Vertical(DrawingEditor editor) {
             super(editor);
@@ -192,23 +184,18 @@ public abstract class AlignAction extends AbstractSelectedAction {
             labels.configureAction(this, "edit.alignVertical");
         }
 
+        @Override
         @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double y = selectionBounds.y + selectionBounds.height / 2;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
                 Figure f = (Figure) i.next();
-                if (f.isTransformable()) {
-                f.willChange();
                 Rectangle2D.Double b = f.getBounds();
-                AffineTransform tx = new AffineTransform();
-                tx.translate(0, y - b.y - b.height / 2);
-                f.transform(tx);
-                f.changed();
-                fireUndoableEditHappened(new TransformEdit(f, tx));
-                }
+                super.performAlignment(f, 0, y - b.y - b.height / 2);
             }
         }
     }
+    
     public static class Horizontal extends AlignAction {
         public Horizontal(DrawingEditor editor) {
             super(editor);
@@ -219,20 +206,14 @@ public abstract class AlignAction extends AbstractSelectedAction {
             labels.configureAction(this, "edit.alignHorizontal");
         }
 
+        @Override
         @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double x = selectionBounds.x + selectionBounds.width / 2;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
                 Figure f = (Figure) i.next();
-                if (f.isTransformable()) {
-                f.willChange();
                 Rectangle2D.Double b = f.getBounds();
-                AffineTransform tx = new AffineTransform();
-                tx.translate(x - b.x - b.width / 2, 0);
-                f.transform(tx);
-                f.changed();
-                fireUndoableEditHappened(new TransformEdit(f, tx));
-                }
+                super.performAlignment(f, x - b.x - b.width / 2, 0);
             }
         }
     }
