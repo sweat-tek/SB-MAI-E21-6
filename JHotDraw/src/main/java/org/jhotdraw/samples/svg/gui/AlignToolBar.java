@@ -57,6 +57,22 @@ public final class AlignToolBar extends AbstractToolBar {
             displayer.setVisibleIfCreationTool(false);
         }
     }
+    
+    private void configurePanel(JPanel panel) {
+        GridBagLayout layout = new GridBagLayout();
+        
+        panel.setOpaque(false);
+        panel.setBorder(new EmptyBorder(5, 5, 5, 8));
+        panel.setLayout(layout);
+    }
+    
+    private void configureButton(JPanel panel, AlignAction action, GridBagConstraints gbc, Boolean hideActionText) {
+        AbstractButton button = new JButton(action);
+        button.setUI((PaletteButtonUI) PaletteButtonUI.createUI(button));
+        button.putClientProperty("hideActionText", hideActionText);
+        button.setText(null);
+        panel.add(button, gbc);
+    }
 
     @Override
     @FeatureEntryPoint(JHotDrawFeatures.ALIGN_PALETTE)
@@ -65,62 +81,33 @@ public final class AlignToolBar extends AbstractToolBar {
 
         if (state == 1) {
             p = new JPanel();
-            p.setOpaque(false);
-
-            p.setBorder(new EmptyBorder(5, 5, 5, 8));
+            configurePanel(p);
+            GridBagConstraints gbc = new GridBagConstraints();
+            AbstractButton btn;
+            
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
 
-            GridBagLayout layout = new GridBagLayout();
-            p.setLayout(layout);
-
-            GridBagConstraints gbc;
-            AbstractButton btn;
-
-            gbc = new GridBagConstraints();
             gbc.gridy = 0;
-            btn = new JButton(new AlignAction.West(editor, labels));
-            btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-            btn.setText(null);
-            p.add(btn, gbc);
+            configureButton(p, new AlignAction.West(editor, labels), gbc, Boolean.FALSE);
 
             gbc.insets = new Insets(0, 3, 0, 0);
-            btn = new JButton(new AlignAction.East(editor, labels));
-            btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-            btn.putClientProperty("hideActionText", Boolean.TRUE);
-            btn.setText(null);
-            p.add(btn, gbc);
+            configureButton(p, new AlignAction.East(editor, labels), gbc, Boolean.TRUE);
 
             gbc.gridy = 1;
             gbc.insets = new Insets(3, 0, 0, 0);
-            btn = new JButton(new AlignAction.North(editor, labels));
-            btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-            btn.putClientProperty("hideActionText", Boolean.TRUE);
-            btn.setText(null);
-            p.add(btn, gbc);
+            configureButton(p, new AlignAction.North(editor, labels), gbc, Boolean.TRUE);
 
             gbc.insets = new Insets(3, 3, 0, 0);
-            btn = new JButton(new AlignAction.South(editor, labels));
-            btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-            btn.putClientProperty("hideActionText", Boolean.TRUE);
-            btn.setText(null);
-            p.add(btn, gbc);
+            configureButton(p, new AlignAction.South(editor, labels), gbc, Boolean.TRUE);
 
             gbc.gridx = 0;
             gbc.gridy = 2;
             gbc.insets = new Insets(3, 0, 0, 0);
-            btn = new JButton(new AlignAction.Horizontal(editor, labels));
-            btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-            btn.putClientProperty("hideActionText", Boolean.TRUE);
-            btn.setText(null);
-            p.add(btn, gbc);
+            configureButton(p, new AlignAction.Horizontal(editor, labels), gbc, Boolean.TRUE);
 
             gbc.gridx = 1;
             gbc.insets = new Insets(3, 3, 0, 0);
-            btn = new JButton(new AlignAction.Vertical(editor, labels));
-            btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-            btn.putClientProperty("hideActionText", Boolean.TRUE);
-            btn.setText(null);
-            p.add(btn, gbc);
+            configureButton(p, new AlignAction.Vertical(editor, labels), gbc, Boolean.TRUE);
         }
         
         return p;
