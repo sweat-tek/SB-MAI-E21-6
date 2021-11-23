@@ -53,13 +53,19 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
      */
     public VerticalGridLayout(int rows, int cols) {
         this(rows, cols, 0, 0);
+        System.out.println("Vertical Grid 2 args");
+
     }
     public VerticalGridLayout(int rows, int cols, boolean isVertical) {
         this(rows, cols, 0, 0, isVertical);
+        System.out.println("Vertical Grid 3 args");
+
     }
     
     public VerticalGridLayout(int rows, int cols, int hgap, int vgap) {
         this(rows, cols, hgap, vgap, true);
+        System.out.println("Vertical Grid 4 args");
+
     }
     /**
      * Creates a grid layout with the specified number of rows and
@@ -86,6 +92,8 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
      *			set to zero
      */
     public VerticalGridLayout(int rows, int cols, int hgap, int vgap, boolean isVertical) {
+        System.out.println("Vertical Grid 5 args");
+
         if ((rows == 0) && (cols == 0)) {
             throw new IllegalArgumentException("rows and cols cannot both be zero");
         }
@@ -223,13 +231,13 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
      * @return    the preferred dimensions to lay out the
      *                      subcomponents of the specified container
      */
-    public Dimension preferredLayoutSize(Container parent) {
+    
+    public Dimension layoutSize( Container parent, String size){
         synchronized (parent.getTreeLock()) {
             Insets insets = parent.getInsets();
             int ncomponents = parent.getComponentCount();
             int nrows = rows;
             int ncols = cols;
-            
             if (nrows > 0) {
                 ncols = (ncomponents + nrows - 1) / nrows;
             } else {
@@ -237,19 +245,29 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             }
             int w = 0;
             int h = 0;
-            for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
-                Dimension d = comp.getPreferredSize();
-                if (w < d.width) {
-                    w = d.width;
-                }
-                if (h < d.height) {
-                    h = d.height;
-                }
-            }
+           Dimension d = null;
+               for (int i = 0 ; i < ncomponents ; i++) {
+                    Component comp = parent.getComponent(i);
+                    if(size.equals("prefered")){
+                        d = comp.getPreferredSize();
+                    }
+                     if (size.equals("minimum")){
+                        d = comp.getMinimumSize();
+                     }
+                    if (w < d.width) {
+                        w = d.width;
+                    }
+                    if (h < d.height) {
+                        h = d.height;
+                    }
+           } 
             return new Dimension(insets.left + insets.right + ncols*w + (ncols-1)*hgap,
             insets.top + insets.bottom + nrows*h + (nrows-1)*vgap);
         }
+    }
+    
+    public Dimension preferredLayoutSize(Container parent) {
+        return layoutSize(parent, "prefered");
     }
     
     /**
@@ -271,32 +289,7 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
      *                      subcomponents of the specified container
      */
     public Dimension minimumLayoutSize(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            Insets insets = parent.getInsets();
-            int ncomponents = parent.getComponentCount();
-            int nrows = rows;
-            int ncols = cols;
-            
-            if (nrows > 0) {
-                ncols = (ncomponents + nrows - 1) / nrows;
-            } else {
-                nrows = (ncomponents + ncols - 1) / ncols;
-            }
-            int w = 0;
-            int h = 0;
-            for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
-                Dimension d = comp.getMinimumSize();
-                if (w < d.width) {
-                    w = d.width;
-                }
-                if (h < d.height) {
-                    h = d.height;
-                }
-            }
-            return new Dimension(insets.left + insets.right + ncols*w + (ncols-1)*hgap,
-            insets.top + insets.bottom + nrows*h + (nrows-1)*vgap);
-        }
+        return layoutSize(parent, "minimum");
     }
     
     /**
@@ -317,6 +310,37 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
      * @see        java.awt.Container
      * @see        java.awt.Container#doLayout
      */
+    public void setBoundsLeftToRight(LayoutContainerData data){
+        int i;
+        if(data.ltr){
+            for (int c = 0, x = data.insets.left ; c < data.ncols ; c++, x += data.w + hgap) {
+                    for (int r = 0, y = data.insets.top ; r < data.nrows ; r++, y += data.h + vgap) {
+                        if (isVertical) {
+                            i = r + c * data.nrows;
+                        } else {
+                            i = r * data.ncols + c;
+                        }
+                        if (i < data.parent.getComponentCount()) {
+                            data.parent.getComponent(i).setBounds(x, y, data.w, data.h);
+                        }
+                    }
+                }
+        } else {
+             for (int c = 0, x = data.parent.getWidth() - data.insets.right - data.w; c < data.ncols ; c++, x -= data.w + hgap) {
+                    for (int r = 0, y = data.insets.top ; r < data.nrows ; r++, y += data.h + vgap) {
+                        if (isVertical) {
+                            i = r + c * data.nrows;
+                        } else {
+                            i = r * data.ncols + c;
+                        }
+                        if (i < data.parent.getComponentCount()) {
+                            data.parent.getComponent(i).setBounds(x, y, data.w, data.h);
+                        }
+                    }
+             }
+        }
+    }
+   
     public void layoutContainer(Container parent) {
         synchronized (parent.getTreeLock()) {
             Insets insets = parent.getInsets();
@@ -338,34 +362,8 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             w = (w - (ncols - 1) * hgap) / ncols;
             h = (h - (nrows - 1) * vgap) / nrows;
             
-            int i;
-            if (ltr) {
-                for (int c = 0, x = insets.left ; c < ncols ; c++, x += w + hgap) {
-                    for (int r = 0, y = insets.top ; r < nrows ; r++, y += h + vgap) {
-                        if (isVertical) {
-                            i = r + c * nrows;
-                        } else {
-                            i = r * ncols + c;
-                        }
-                        if (i < ncomponents) {
-                            parent.getComponent(i).setBounds(x, y, w, h);
-                        }
-                    }
-                }
-            } else {
-                for (int c = 0, x = parent.getWidth() - insets.right - w; c < ncols ; c++, x -= w + hgap) {
-                    for (int r = 0, y = insets.top ; r < nrows ; r++, y += h + vgap) {
-                        if (isVertical) {
-                            i = r + c * nrows;
-                        } else {
-                            i = r * ncols + c;
-                        }
-                        if (i < ncomponents) {
-                            parent.getComponent(i).setBounds(x, y, w, h);
-                        }
-                    }
-                }
-            }
+           LayoutContainerData containerData = new LayoutContainerData(parent, insets, w, h, ltr, nrows, ncols, ncomponents);
+            setBoundsLeftToRight(containerData);
         }
     }
     
