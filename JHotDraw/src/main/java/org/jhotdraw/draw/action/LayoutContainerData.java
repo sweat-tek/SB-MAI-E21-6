@@ -22,6 +22,40 @@ public class LayoutContainerData {
     int nrows;
     int ncols;
     int ncomponents;
+
+    public Container getParent() {
+        return parent;
+    }
+
+    public Insets getInsets() {
+        return insets;
+    }
+
+    public int getW() {
+        return w;
+    }
+
+    public int getH() {
+        return h;
+    }
+
+    public boolean isLtr() {
+        return ltr;
+    }
+
+    public int getNrows() {
+        return nrows;
+    }
+
+    public int getNcols() {
+        return ncols;
+    }
+
+    public int getNcomponents() {
+        return ncomponents;
+    }
+    
+    
     
     public LayoutContainerData(
             Container parent,

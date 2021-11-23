@@ -29,6 +29,21 @@ public class ZoomAction extends AbstractDrawingViewAction {
     private double scaleFactor;
     private AbstractButton button;
     private String label;
+
+    public double getScaleFactor() {
+        return scaleFactor;
+    }
+
+    public AbstractButton getButton() {
+        return button;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+    
+    
+    
     /**
      * Creates a new instance.
      */
@@ -51,14 +66,14 @@ public class ZoomAction extends AbstractDrawingViewAction {
     public void calculateZoom(){
         final Rectangle vRect = getView().getComponent().getVisibleRect();
         final double oldFactor = getView().getScaleFactor();
-        getView().setScaleFactor(scaleFactor);
+        getView().setScaleFactor(getScaleFactor());
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 if (vRect != null) {
-                    vRect.x = (int) (vRect.x / oldFactor * scaleFactor);
-                    vRect.y = (int) (vRect.y / oldFactor * scaleFactor);
-                    vRect.width = (int) (vRect.width / oldFactor * scaleFactor);
-                    vRect.height = (int) (vRect.height / oldFactor * scaleFactor);
+                    vRect.x = (int) (vRect.x / oldFactor * getScaleFactor());
+                    vRect.y = (int) (vRect.y / oldFactor * getScaleFactor());
+                    vRect.width = (int) (vRect.width / oldFactor * getScaleFactor());
+                    vRect.height = (int) (vRect.height / oldFactor * getScaleFactor());
                     vRect.x += vRect.width / 3;
                     vRect.y += vRect.height / 3;
                     vRect.width /= 3;
@@ -68,10 +83,9 @@ public class ZoomAction extends AbstractDrawingViewAction {
             }
         });
     }
-    
     public void actionPerformed(java.awt.event.ActionEvent e) {
-        if (button != null) {
-            button.setText(label);
+        if (getButton() != null) {
+            getButton().setText(getLabel());
         }
         calculateZoom();
     }
