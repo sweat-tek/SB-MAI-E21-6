@@ -63,7 +63,7 @@ public class ZoomAction extends AbstractDrawingViewAction {
         putValue(Action.NAME, label);
     }
     
-    public void calculateZoom(){
+    public Rectangle calculateZoom(){
         final Rectangle vRect = getView().getComponent().getVisibleRect();
         final double oldFactor = getView().getScaleFactor();
         getView().setScaleFactor(getScaleFactor());
@@ -79,9 +79,11 @@ public class ZoomAction extends AbstractDrawingViewAction {
                     vRect.width /= 3;
                     vRect.height /= 3;
                     getView().getComponent().scrollRectToVisible(vRect);
+                    
                 }
             }
         });
+        return vRect;
     }
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (getButton() != null) {

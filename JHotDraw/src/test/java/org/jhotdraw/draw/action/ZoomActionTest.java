@@ -5,14 +5,19 @@
  */
 package org.jhotdraw.draw.action;
 
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractButton;
+import javax.swing.JComponent;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  *
@@ -20,11 +25,31 @@ import static org.junit.Assert.*;
  */
 public class ZoomActionTest {
     
+    private static DrawingEditor editor;
+    private static double scaleFactor;
+    private static DrawingView view;
+    private static AbstractButton button;
+    private static String label;
+    private Rectangle rectangle;
+    private static JComponent jComponent;
+    
+    
+    
+    
+    
     public ZoomActionTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
+        editor = mock(DrawingEditor.class);
+        view = mock(DrawingView.class);
+        button = mock(AbstractButton.class);
+        label =  (int) (scaleFactor * 100)+" %";
+        jComponent = mock(JComponent.class);
+        
+        when(view.getScaleFactor()).thenReturn(1.0);
+        when(view.getComponent()).thenReturn(jComponent);
     }
     
     @AfterClass
@@ -33,6 +58,12 @@ public class ZoomActionTest {
     
     @Before
     public void setUp() {
+        scaleFactor = 1.0;
+       //rectangle = new SVGRectFigure(0,0,100,100,0,0);
+        rectangle = new Rectangle(0,0,100,100);
+        
+        when(view.getComponent().getVisibleRect()).thenReturn(rectangle);
+
     }
     
     @After
@@ -44,13 +75,11 @@ public class ZoomActionTest {
      */
     @Test
     public void testGetScaleFactor() {
-        System.out.println("getScaleFactor initial value");
-        ZoomAction instance = null;
-        double expResult = 0.0;
+        System.out.println("getScaleFactor");
+        ZoomAction instance = new ZoomAction(view, scaleFactor, button);
+        double expResult = 1.0;
         double result = instance.getScaleFactor();
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -59,12 +88,10 @@ public class ZoomActionTest {
     @Test
     public void testGetButton() {
         System.out.println("getButton");
-        ZoomAction instance = null;
-        AbstractButton expResult = null;
+        ZoomAction instance = new ZoomAction(view, scaleFactor, button);
+        AbstractButton expResult = button;
         AbstractButton result = instance.getButton();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -73,26 +100,13 @@ public class ZoomActionTest {
     @Test
     public void testGetLabel() {
         System.out.println("getLabel");
-        ZoomAction instance = null;
-        String expResult = "";
+        ZoomAction instance = new ZoomAction(view, scaleFactor, button);
+        instance.getButton().setText(label);
+        String expResult = (int) (scaleFactor * 100)+" %";
         String result = instance.getLabel();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of calculateZoom method, of class ZoomAction.
-     */
-    @Test
-    public void testCalculateZoom() {
-        System.out.println("calculateZoom");
-        ZoomAction instance = null;
-        instance.calculateZoom();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+   
     /**
      * Test of actionPerformed method, of class ZoomAction.
      */
@@ -100,10 +114,10 @@ public class ZoomActionTest {
     public void testActionPerformed() {
         System.out.println("actionPerformed");
         ActionEvent e = null;
-        ZoomAction instance = null;
+        ZoomAction instance = new ZoomAction(view, 2.0, button);
         instance.actionPerformed(e);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Rectangle rect = instance.getView().getComponent().getVisibleRect();
+        assertEquals(200,rect.width);
     }
     
 }

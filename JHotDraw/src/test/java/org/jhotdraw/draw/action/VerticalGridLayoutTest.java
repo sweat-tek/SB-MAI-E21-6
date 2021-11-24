@@ -26,6 +26,8 @@ public class VerticalGridLayoutTest {
     
     @BeforeClass
     public static void setUpClass() {
+        
+        
     }
     
     @AfterClass
