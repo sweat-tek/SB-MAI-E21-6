@@ -30,7 +30,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @author Werner Randelshofer
  * @version 1.0 2009-04-16 Derived from TextTool.
  */
-public class TextEditingTool extends AbstractTool implements ActionListener {
+public class TextEditingTool extends TextGenericTool implements ActionListener {
 
     private FloatingTextField textField;
     private TextHolderFigure typingTarget;
@@ -42,6 +42,7 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
 
     @Override
     public void deactivate(DrawingEditor editor) {
+        System.out.println("no");
         endEdit();
         super.deactivate(editor);
     }
@@ -76,51 +77,11 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
     public void mouseReleased(MouseEvent evt) {
     }
 
-    protected void endEdit() {
-        if (typingTarget != null) {
-            typingTarget.willChange();
-
-            final TextHolderFigure editedFigure = typingTarget;
-            final String oldText = typingTarget.getText();
-            final String newText = textField.getText();
-
-            if (newText.length() > 0) {
-                typingTarget.setText(newText);
-            }
-            UndoableEdit edit = new AbstractUndoableEdit() {
-
-                @Override
-                public String getPresentationName() {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                    return labels.getString("attribute.text.text");
-                }
-
-                @Override
-                public void undo() {
-                    super.undo();
-                    editedFigure.willChange();
-                    editedFigure.setText(oldText);
-                    editedFigure.changed();
-                }
-
-                @Override
-                public void redo() {
-                    super.redo();
-                    editedFigure.willChange();
-                    editedFigure.setText(newText);
-                    editedFigure.changed();
-                }
-            };
-            getDrawing().fireUndoableEditHappened(edit);
-
-            typingTarget.changed();
-            typingTarget = null;
-
-            textField.endOverlay();
-        }
-    //	        view().checkDamage();
+    @Override
+    public void editingCode(){
+        
     }
-
+    
     @Override
     public void keyReleased(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {

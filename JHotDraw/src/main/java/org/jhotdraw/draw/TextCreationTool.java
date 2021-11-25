@@ -139,58 +139,58 @@ public class TextCreationTool extends CreationTool implements ActionListener {
     public void mouseReleased(MouseEvent evt) {
     }
     
-    protected void endEdit() {
-        if (typingTarget != null) {
-            typingTarget.willChange();
-
-            final TextHolderFigure editedFigure = typingTarget;
-            final String oldText = typingTarget.getText();
-            final String newText = textField.getText();
-
-            if (newText.length() > 0) {
-                typingTarget.setText(newText);
-            } else {
-                if (createdFigure != null) {
-                    getDrawing().remove((Figure)getAddedFigure());
-                // XXX - Fire undoable edit here!!
-                } else {
-                    typingTarget.setText("");
-                    typingTarget.changed();
-                }
-            }
-            UndoableEdit edit = new AbstractUndoableEdit() {
-
-                @Override
-                public String getPresentationName() {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                    return labels.getString("attribute.text.text");
-                }
-
-                @Override
-                public void undo() {
-                    super.undo();
-                    editedFigure.willChange();
-                    editedFigure.setText(oldText);
-                    editedFigure.changed();
-                }
-
-                @Override
-                public void redo() {
-                    super.redo();
-                    editedFigure.willChange();
-                    editedFigure.setText(newText);
-                    editedFigure.changed();
-                }
-            };
-            getDrawing().fireUndoableEditHappened(edit);
-
-            typingTarget.changed();
-            typingTarget = null;
-            
-            textField.endOverlay();
-        }
-        //	        view().checkDamage();
-    }
+//    protected void endEdit() {
+//        if (typingTarget != null) {
+//            typingTarget.willChange();
+//
+//            final TextHolderFigure editedFigure = typingTarget;
+//            final String oldText = typingTarget.getText();
+//            final String newText = textField.getText();
+//
+//            if (newText.length() > 0) {
+//                typingTarget.setText(newText);
+//            } else {
+//                if (createdFigure != null) {
+//                    getDrawing().remove((Figure) getAddedFigure());
+//                    // XXX - Fire undoable edit here!!
+//                } else {
+//                    typingTarget.setText("");
+//                    typingTarget.changed();
+//                }
+//            }
+//            UndoableEdit edit = new AbstractUndoableEdit() {
+//
+//                @Override
+//                public String getPresentationName() {
+//                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+//                    return labels.getString("attribute.text.text");
+//                }
+//
+//                @Override
+//                public void undo() {
+//                    super.undo();
+//                    editedFigure.willChange();
+//                    editedFigure.setText(oldText);
+//                    editedFigure.changed();
+//                }
+//
+//                @Override
+//                public void redo() {
+//                    super.redo();
+//                    editedFigure.willChange();
+//                    editedFigure.setText(newText);
+//                    editedFigure.changed();
+//                }
+//            };
+//            getDrawing().fireUndoableEditHappened(edit);
+//
+//            typingTarget.changed();
+//            typingTarget = null;
+//
+//            textField.endOverlay();
+//        }
+//        //	        view().checkDamage();
+//    }
     
     @Override
     public void keyReleased(KeyEvent evt) {
