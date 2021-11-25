@@ -9,11 +9,7 @@ import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.BeforeStage;
 import com.tngtech.jgiven.annotation.ExpectedScenarioState;
 import java.awt.Point;
-import java.util.Set;
-import org.jhotdraw.draw.CompositeFigure;
 import org.jhotdraw.draw.DrawingEditor;
-import org.jhotdraw.draw.Figure;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -29,7 +25,7 @@ public class ThenUndo extends Stage<ThenUndo>{
     
     @BeforeStage
     public void before(){
-        editor.getActiveView().findFigure(p);
+        
     }
     
     ThenUndo rectangleUndone() {

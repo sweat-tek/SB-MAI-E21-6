@@ -14,10 +14,7 @@ import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.Figure;
 import org.jhotdraw.draw.QuadTreeDrawing;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -28,7 +25,7 @@ import static org.junit.Assert.*;
 public class UndoActionTest extends ScenarioTest<GivenObject, WhenMakeChange, ThenUndo>{
     
     DrawingEditor editor;
-    Point p = new Point(1,1);
+    
     
     public UndoActionTest() {
     }
@@ -43,7 +40,8 @@ public class UndoActionTest extends ScenarioTest<GivenObject, WhenMakeChange, Th
 
     @Test
     public void testUndo() {
-        // TODO review the generated test code and remove the default call to fail.
+        Point p = new Point(1,1);
+        
         Figure f = new SVGRectFigure(1, 1, 100, 100);
         editor.getActiveView().getDrawing().add(f);
         
