@@ -15,10 +15,6 @@ package org.jhotdraw.draw;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Point2D;
-import javax.swing.undo.AbstractUndoableEdit;
-import javax.swing.undo.UndoableEdit;
-import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * A tool to edit figures which implement the {@code TextHolderFigure} interface,
@@ -42,8 +38,7 @@ public class TextEditingTool extends TextGenericTool implements ActionListener {
 
     @Override
     public void deactivate(DrawingEditor editor) {
-        System.out.println("no");
-        endEdit();
+        endText(typingTarget, textField);
         super.deactivate(editor);
     }
 
@@ -65,7 +60,7 @@ public class TextEditingTool extends TextGenericTool implements ActionListener {
         }
 
         if (textHolder != typingTarget && typingTarget != null) {
-            endEdit();
+            endText(typingTarget, textField);
         }
 
         textField.createOverlay(getView(), textHolder);
@@ -78,8 +73,8 @@ public class TextEditingTool extends TextGenericTool implements ActionListener {
     }
 
     @Override
-    public void editingCode(){
-        
+    public void editingCode(TextHolderFigure typingTarget) {
+
     }
     
     @Override
@@ -90,7 +85,7 @@ public class TextEditingTool extends TextGenericTool implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent event) {
-        endEdit();
+        endText(typingTarget, textField);
         fireToolDone();
     }
 

@@ -19,9 +19,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.*;
-import javax.swing.undo.AbstractUndoableEdit;
-import javax.swing.undo.UndoableEdit;
-import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * A tool to create figures which implement the {@code TextHolderFigure}
  * interface, such as {@code TextFigure}. The figure to be created is specified
@@ -45,6 +42,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class TextCreationTool extends CreationTool implements ActionListener {
     private FloatingTextField   textField;
     private TextHolderFigure  typingTarget;
+    final private TextGenericTool endEdit = new TextGenericTool();
     
     /** Creates a new instance. */
     public TextCreationTool(TextHolderFigure prototype) {
@@ -57,7 +55,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
     
     @Override
     public void deactivate(DrawingEditor editor) {
-        endEdit();
+        endEdit.endText(typingTarget, textField);
         super.deactivate(editor);
     }
     /**
@@ -99,7 +97,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
                     return;
         }
         if (typingTarget != null) {
-            endEdit();
+            endEdit.endText(typingTarget, textField);
             if (isToolDoneAfterCreation()) {
                 fireToolDone();
             }
@@ -126,7 +124,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
         }
         
         if (textHolder != typingTarget && typingTarget != null) {
-            endEdit();
+            endEdit.endText(typingTarget, textField);
         }
         
         textField.createOverlay(getView(), textHolder);
@@ -139,59 +137,6 @@ public class TextCreationTool extends CreationTool implements ActionListener {
     public void mouseReleased(MouseEvent evt) {
     }
     
-//    protected void endEdit() {
-//        if (typingTarget != null) {
-//            typingTarget.willChange();
-//
-//            final TextHolderFigure editedFigure = typingTarget;
-//            final String oldText = typingTarget.getText();
-//            final String newText = textField.getText();
-//
-//            if (newText.length() > 0) {
-//                typingTarget.setText(newText);
-//            } else {
-//                if (createdFigure != null) {
-//                    getDrawing().remove((Figure) getAddedFigure());
-//                    // XXX - Fire undoable edit here!!
-//                } else {
-//                    typingTarget.setText("");
-//                    typingTarget.changed();
-//                }
-//            }
-//            UndoableEdit edit = new AbstractUndoableEdit() {
-//
-//                @Override
-//                public String getPresentationName() {
-//                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-//                    return labels.getString("attribute.text.text");
-//                }
-//
-//                @Override
-//                public void undo() {
-//                    super.undo();
-//                    editedFigure.willChange();
-//                    editedFigure.setText(oldText);
-//                    editedFigure.changed();
-//                }
-//
-//                @Override
-//                public void redo() {
-//                    super.redo();
-//                    editedFigure.willChange();
-//                    editedFigure.setText(newText);
-//                    editedFigure.changed();
-//                }
-//            };
-//            getDrawing().fireUndoableEditHappened(edit);
-//
-//            typingTarget.changed();
-//            typingTarget = null;
-//
-//            textField.endOverlay();
-//        }
-//        //	        view().checkDamage();
-//    }
-    
     @Override
     public void keyReleased(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ESCAPE || isToolDoneAfterCreation()) {
@@ -199,7 +144,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
         }
     }
     public void actionPerformed(ActionEvent event) {
-        endEdit();
+        endEdit.endText(typingTarget, textField);
         if (isToolDoneAfterCreation()) {
             fireToolDone();
         }

@@ -6,7 +6,6 @@
 package org.jhotdraw.draw;
 
 import java.awt.event.MouseEvent;
-import java.util.Map;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.util.ResourceBundleUtil;
@@ -18,13 +17,12 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class TextGenericTool extends AbstractTool {
    
     private FloatingTextField textField;
-    private TextHolderFigure typingTarget;
     private CreationTool creationTool;
 
     
     
     
-    protected void editingCode() {            
+    public void editingCode(TextHolderFigure typingTarget) {            
         if (creationTool.createdFigure != null) {
              getDrawing().remove((Figure)creationTool.getAddedFigure());
        } else {
@@ -35,18 +33,18 @@ public class TextGenericTool extends AbstractTool {
     }
     
     
-protected void endEdit() {
+public void endText(TextHolderFigure typingTarget, FloatingTextField textField ) {
         if (typingTarget != null) {
             typingTarget.willChange();
-
+            
             final TextHolderFigure editedFigure = typingTarget;
             final String oldText = typingTarget.getText();
             final String newText = textField.getText();
 
             if (newText.length() > 0) {
                 typingTarget.setText(newText);
-            } else { editingCode();
-
+            } else { 
+                editingCode(typingTarget);
             }
             UndoableEdit edit = new AbstractUndoableEdit() {
 

@@ -212,7 +212,7 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
     }
 
     @FeatureEntryPoint(JHotDrawFeatures.TEXT_AREA_TOOL)
-    protected void endEdit() {
+    public void endEdit() {
         if (typingTarget != null) {
             typingTarget.willChange();
 
