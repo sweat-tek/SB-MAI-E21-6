@@ -5,6 +5,8 @@
  */
 package org.jhotdraw.draw;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
@@ -16,7 +18,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class TextGenericTool extends AbstractTool {
    
-    private FloatingTextField textField;
     private CreationTool creationTool;
 
     
@@ -85,6 +86,11 @@ public void endText(TextHolderFigure typingTarget, FloatingTextField textField )
     
     @Override
     public void mouseDragged(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
