@@ -19,6 +19,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.*;
+import javax.swing.undo.UndoableEdit;
 /**
  * A tool to create figures which implement the {@code TextHolderFigure}
  * interface, such as {@code TextFigure}. The figure to be created is specified
@@ -42,7 +43,6 @@ import java.util.*;
 public class TextCreationTool extends CreationTool implements ActionListener {
     private FloatingTextField   textField;
     private TextHolderFigure  typingTarget;
-    final private TextGenericTool endEdit = new TextGenericTool();
     
     /** Creates a new instance. */
     public TextCreationTool(TextHolderFigure prototype) {
@@ -55,7 +55,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
     
     @Override
     public void deactivate(DrawingEditor editor) {
-        endEdit.endText(typingTarget, textField);
+        endText();
         super.deactivate(editor);
     }
     /**
@@ -97,7 +97,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
                     return;
         }
         if (typingTarget != null) {
-            endEdit.endText(typingTarget, textField);
+            endText();
             if (isToolDoneAfterCreation()) {
                 fireToolDone();
             }
@@ -124,7 +124,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
         }
         
         if (textHolder != typingTarget && typingTarget != null) {
-            endEdit.endText(typingTarget, textField);
+            endText();
         }
         
         textField.createOverlay(getView(), textHolder);
@@ -136,6 +136,35 @@ public class TextCreationTool extends CreationTool implements ActionListener {
     @Override
     public void mouseReleased(MouseEvent evt) {
     }
+        public void endText() {
+        if (typingTarget != null) {
+            typingTarget.willChange();
+            
+            final TextHolderFigure editedFigure = typingTarget;
+            final String oldText = typingTarget.getText();
+            final String newText = textField.getText();
+
+            if (newText.length() > 0) {
+                typingTarget.setText(newText);
+            } else { 
+                if (createdFigure != null) {
+                    getDrawing().remove((Figure)getAddedFigure());
+            } else {
+           typingTarget.setText("");
+           typingTarget.changed();    
+      }
+            }
+         
+            UndoableEdit edit = undoRedoCheck(editedFigure, oldText,newText);
+            getDrawing().fireUndoableEditHappened(edit);
+             
+            
+            typingTarget.changed();
+            typingTarget = null;
+            
+            textField.endOverlay();
+        }
+    } 
     
     @Override
     public void keyReleased(KeyEvent evt) {
@@ -144,7 +173,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
         }
     }
     public void actionPerformed(ActionEvent event) {
-        endEdit.endText(typingTarget, textField);
+        endText();
         if (isToolDoneAfterCreation()) {
             fireToolDone();
         }

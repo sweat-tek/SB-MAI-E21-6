@@ -17,37 +17,18 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @author Zed V2
  */
 public class TextGenericTool extends AbstractTool {
-   
-    private CreationTool creationTool;
-
     
-    
-    
-    public void editingCode(TextHolderFigure typingTarget) {            
-        if (creationTool.createdFigure != null) {
-             getDrawing().remove((Figure)creationTool.getAddedFigure());
-       } else {
-           typingTarget.setText("");
-           typingTarget.changed();
-      }
-                
+    public TextGenericTool() {
     }
+   
     
     
-public void endText(TextHolderFigure typingTarget, FloatingTextField textField ) {
-        if (typingTarget != null) {
-            typingTarget.willChange();
+public UndoableEdit undoRedoCheck(TextHolderFigure typingTarget, String newText, String oldText) {
+    
+    TextHolderFigure editedFigure = typingTarget;
+    
             
-            final TextHolderFigure editedFigure = typingTarget;
-            final String oldText = typingTarget.getText();
-            final String newText = textField.getText();
-
-            if (newText.length() > 0) {
-                typingTarget.setText(newText);
-            } else { 
-                editingCode(typingTarget);
-            }
-            UndoableEdit edit = new AbstractUndoableEdit() {
+      UndoableEdit edit = new AbstractUndoableEdit() {
 
                 @Override
                 public String getPresentationName() {
@@ -70,28 +51,18 @@ public void endText(TextHolderFigure typingTarget, FloatingTextField textField )
                     editedFigure.setText(newText);
                     editedFigure.changed();
                 }
+              
             };
-            getDrawing().fireUndoableEditHappened(edit);
-
-            typingTarget.changed();
-            typingTarget = null;
-            
-            textField.endOverlay();
+      return edit;
         }
-    }    
-    @Override
-    public void deactivate(DrawingEditor editor) {
-        super.deactivate(editor); }
-    
-    
+
     @Override
     public void mouseDragged(MouseEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+        
     @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void deactivate(DrawingEditor editor) {
+        super.deactivate(editor); }
     
 }

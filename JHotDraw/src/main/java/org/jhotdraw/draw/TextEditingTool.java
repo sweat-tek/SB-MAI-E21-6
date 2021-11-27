@@ -15,6 +15,9 @@ package org.jhotdraw.draw;
 
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.UndoableEdit;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * A tool to edit figures which implement the {@code TextHolderFigure} interface,
@@ -38,7 +41,7 @@ public class TextEditingTool extends TextGenericTool implements ActionListener {
 
     @Override
     public void deactivate(DrawingEditor editor) {
-        endText(typingTarget, textField);
+        endText();
         super.deactivate(editor);
     }
 
@@ -60,7 +63,7 @@ public class TextEditingTool extends TextGenericTool implements ActionListener {
         }
 
         if (textHolder != typingTarget && typingTarget != null) {
-            endText(typingTarget, textField);
+            endText();
         }
 
         textField.createOverlay(getView(), textHolder);
@@ -72,10 +75,31 @@ public class TextEditingTool extends TextGenericTool implements ActionListener {
     public void mouseReleased(MouseEvent evt) {
     }
 
-    @Override
-    public void editingCode(TextHolderFigure typingTarget) {
+    public void endText() {
+        if (typingTarget != null) {
+            typingTarget.willChange();
+            
+            final TextHolderFigure editedFigure = typingTarget;
+            final String oldText = typingTarget.getText();
+            final String newText = textField.getText();
 
-    }
+            if (newText.length() > 0) {
+                typingTarget.setText(newText);
+            } else {
+           typingTarget.setText("");
+           typingTarget.changed();
+      }
+         
+            UndoableEdit edit = undoRedoCheck(editedFigure, oldText,newText);
+            getDrawing().fireUndoableEditHappened(edit);
+             
+            
+            typingTarget.changed();
+            typingTarget = null;
+            
+            textField.endOverlay();
+        }
+    } 
     
     @Override
     public void keyReleased(KeyEvent evt) {
@@ -85,7 +109,7 @@ public class TextEditingTool extends TextGenericTool implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent event) {
-        endText(typingTarget, textField);
+        endText();
         fireToolDone();
     }
 
