@@ -39,6 +39,8 @@ public class SelectSameAction extends AbstractSelectedAction {
 
     @FeatureEntryPoint(JHotDrawFeatures.AUTOMATIC_SELECTION)
     public void actionPerformed(java.awt.event.ActionEvent e) {
+        System.out.println(e);
+        System.out.println("clicked");
         selectSame();
     }
     

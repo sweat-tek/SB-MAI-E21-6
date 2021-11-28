@@ -52,8 +52,6 @@ public class VerticalGridLayoutTest {
         int expResult = 0;
         int result = instance.getRows();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -62,11 +60,10 @@ public class VerticalGridLayoutTest {
     @Test
     public void testSetRows() {
         System.out.println("setRows");
-        int rows = 0;
+        int rows = 2;
         VerticalGridLayout instance = new VerticalGridLayout();
         instance.setRows(rows);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(rows,instance.getRows());
     }
 
     /**
@@ -78,8 +75,7 @@ public class VerticalGridLayoutTest {
         boolean b = false;
         VerticalGridLayout instance = new VerticalGridLayout();
         instance.setVertical(b);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertFalse(instance.isVertical());
     }
 
     /**
@@ -89,11 +85,10 @@ public class VerticalGridLayoutTest {
     public void testIsVertical() {
         System.out.println("isVertical");
         VerticalGridLayout instance = new VerticalGridLayout();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.isVertical();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -103,11 +98,11 @@ public class VerticalGridLayoutTest {
     public void testGetColumns() {
         System.out.println("getColumns");
         VerticalGridLayout instance = new VerticalGridLayout();
-        int expResult = 0;
+        int expResult = 3;
+        instance.setColumns(3);
         int result = instance.getColumns();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -119,8 +114,7 @@ public class VerticalGridLayoutTest {
         int cols = 0;
         VerticalGridLayout instance = new VerticalGridLayout();
         instance.setColumns(cols);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -133,8 +127,6 @@ public class VerticalGridLayoutTest {
         int expResult = 0;
         int result = instance.getHgap();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -146,8 +138,7 @@ public class VerticalGridLayoutTest {
         int hgap = 0;
         VerticalGridLayout instance = new VerticalGridLayout();
         instance.setHgap(hgap);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(hgap,instance.getHgap());
     }
 
     /**
@@ -160,8 +151,7 @@ public class VerticalGridLayoutTest {
         int expResult = 0;
         int result = instance.getVgap();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+       
     }
 
     /**
@@ -173,8 +163,7 @@ public class VerticalGridLayoutTest {
         int vgap = 0;
         VerticalGridLayout instance = new VerticalGridLayout();
         instance.setVgap(vgap);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(vgap,instance.getVgap());
     }
 
     /**
@@ -275,19 +264,4 @@ public class VerticalGridLayoutTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of toString method, of class VerticalGridLayout.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        VerticalGridLayout instance = new VerticalGridLayout();
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

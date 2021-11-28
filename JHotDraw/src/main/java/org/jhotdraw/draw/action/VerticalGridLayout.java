@@ -53,19 +53,13 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
      */
     public VerticalGridLayout(int rows, int cols) {
         this(rows, cols, 0, 0);
-        System.out.println("Vertical Grid 2 args");
-
     }
     public VerticalGridLayout(int rows, int cols, boolean isVertical) {
         this(rows, cols, 0, 0, isVertical);
-        System.out.println("Vertical Grid 3 args");
-
     }
     
     public VerticalGridLayout(int rows, int cols, int hgap, int vgap) {
         this(rows, cols, hgap, vgap, true);
-        System.out.println("Vertical Grid 4 args");
-
     }
     /**
      * Creates a grid layout with the specified number of rows and
@@ -92,7 +86,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
      *			set to zero
      */
     public VerticalGridLayout(int rows, int cols, int hgap, int vgap, boolean isVertical) {
-        System.out.println("Vertical Grid 5 args");
 
         if ((rows == 0) && (cols == 0)) {
             throw new IllegalArgumentException("rows and cols cannot both be zero");

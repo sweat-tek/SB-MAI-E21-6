@@ -59,9 +59,7 @@ public class ZoomActionTest {
     @Before
     public void setUp() {
         scaleFactor = 1.0;
-       //rectangle = new SVGRectFigure(0,0,100,100,0,0);
         rectangle = new Rectangle(0,0,100,100);
-        
         when(view.getComponent().getVisibleRect()).thenReturn(rectangle);
 
     }
