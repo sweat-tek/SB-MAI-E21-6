@@ -47,5 +47,17 @@
             <version>1.0.0-RC6</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.testifyproject.junit4</groupId>
+            <artifactId>junit4</artifactId>
+            <version>1.0.4</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.4.6</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
  </project>
