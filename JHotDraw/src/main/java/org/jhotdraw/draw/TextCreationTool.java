@@ -42,7 +42,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @author Werner Randelshofer
  * @version 1.0 2009-04-16 Refactored from TextTool.
  */
-public class TextCreationTool extends CreationTool implements ActionListener {
+public class TextCreationTool extends RectangleCreationTool implements ActionListener {
     private FloatingTextField   textField;
     private TextHolderFigure  typingTarget;
     

@@ -52,7 +52,7 @@ import org.jhotdraw.undo.*;
  * <br>1.1 2008-05-17 Honor toolDoneAfterCreation property.
  * <br>1.0 December 14, 2006 Created.
  */
-public class SVGCreateFromFileTool extends CreationTool {
+public class SVGCreateFromFileTool extends RectangleCreationTool {
 
     protected FileDialog fileDialog;
     protected JFileChooser fileChooser;

@@ -18,7 +18,7 @@ import org.jhotdraw.util.*;
  * Role: Client.<br>
  * Partners: {@link Figure} as Prototype.
  */
-public class CreationTool extends AbstractTool {
+public class RectangleCreationTool extends AbstractTool {
     protected Map<AttributeKey, Object> prototypeAttributes;
     protected String presentationName;
     protected Dimension minimalSizeTreshold = new Dimension(2, 2);
@@ -27,15 +27,15 @@ public class CreationTool extends AbstractTool {
     protected Figure createdFigure;
     private boolean isToolDoneAfterCreation = true;
 
-    public CreationTool(String prototypeClassName) {
+    public RectangleCreationTool(String prototypeClassName) {
         this(prototypeClassName, null, null);
     }
 
-    public CreationTool(String prototypeClassName, Map<AttributeKey, Object> attributes) {
+    public RectangleCreationTool(String prototypeClassName, Map<AttributeKey, Object> attributes) {
         this(prototypeClassName, attributes, null);
     }
 
-    public CreationTool(String prototypeClassName, Map<AttributeKey, Object> attributes, String name) {
+    public RectangleCreationTool(String prototypeClassName, Map<AttributeKey, Object> attributes, String name) {
         try {
             this.prototype = (Figure) Class.forName(prototypeClassName).newInstance();
         } catch (Exception e) {
@@ -51,15 +51,15 @@ public class CreationTool extends AbstractTool {
         this.presentationName = name;
     }
 
-    public CreationTool(Figure prototype) {
+    public RectangleCreationTool(Figure prototype) {
         this(prototype, null, null);
     }
 
-    public CreationTool(Figure prototype, Map<AttributeKey, Object> attributes) {
+    public RectangleCreationTool(Figure prototype, Map<AttributeKey, Object> attributes) {
         this(prototype, attributes, null);
     }
 
-    public CreationTool(Figure prototype, Map<AttributeKey, Object> attributes, String name) {
+    public RectangleCreationTool(Figure prototype, Map<AttributeKey, Object> attributes, String name) {
         this.prototype = prototype;
         this.prototypeAttributes = attributes;
         if (name == null) {

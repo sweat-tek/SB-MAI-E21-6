@@ -67,7 +67,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @see TextHolderFigure
  * @see FloatingTextArea
  */
-public class TextAreaCreationTool extends CreationTool implements ActionListener {
+public class TextAreaCreationTool extends RectangleCreationTool implements ActionListener {
 
     private FloatingTextArea textArea;
     private TextHolderFigure typingTarget;
