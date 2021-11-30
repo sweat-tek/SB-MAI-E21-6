@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  build-then-test:
+  test-then-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,9 +13,10 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: build
-        working-directory: ./JHotDraw
-        run: mvn --batch-mode --update-snapshots verify
       - name: test
         working-directory: ./JhotDraw
         run: mvn test
+      - name: build
+        working-directory: ./JHotDraw
+        run: mvn --batch-mode --update-snapshots verify
+
