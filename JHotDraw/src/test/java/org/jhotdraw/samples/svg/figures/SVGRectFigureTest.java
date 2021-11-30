@@ -80,28 +80,4 @@ public class SVGRectFigureTest {
         
         assertEquals("Comparing boundaries",instance.getBounds(),testData.getBounds2D());
     }
-    
-    
-    //mock example
-    /*
-            RoundRectangle2D mockedRoundRec = mock(RoundRectangle2D.class);
-        when(mockedRoundRec.getBounds2D()).thenReturn(testData);
-    */
-    
-
-    /*
-    *Variables that need to be set:
-    g.setPaint(??)
-    g.setSetStroke(??)
-    */
-    @Test
-    public void testDrawStroke() {
-        System.out.println("drawStroke");
-        Graphics2D g = null;
-        SVGRectFigure instance = new SVGRectFigure();
-        instance.drawStroke(g);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
 }

@@ -1,0 +1,21 @@
+name: build and test
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-then-test:
+    runs on: ubuntu-latest
+    steps:
+      - usses: actions/checkout@v2
+      - name: jdk
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: build
+        working-directory: ./JHotDraw
+        run: mvn --batch-mode --update-snapshots verify
+      - name: test
+        working-directory: ./JhotDraw
+        run: mvn test

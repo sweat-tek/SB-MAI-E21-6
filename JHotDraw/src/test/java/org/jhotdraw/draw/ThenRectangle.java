@@ -5,6 +5,7 @@ import com.tngtech.jgiven.annotation.ExpectedScenarioState;
 import java.util.Set;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ThenRectangle extends Stage<ThenRectangle>{
     
@@ -16,11 +17,11 @@ public class ThenRectangle extends Stage<ThenRectangle>{
 
     ThenRectangle newRectangleIsCreated() {
         assertRectangleDimensions((SVGRectFigure) editor.getActiveView().getDrawing().getChild(0),(SVGRectFigure) expectedRect);
+        assertTrue("Is a rectangle",(editor.getActiveView().getDrawing().getChild(0).getClass() == (SVGRectFigure.class)));
         return this;
     }
 
     private void assertRectangleDimensions(SVGRectFigure createdRectangle,SVGRectFigure expectedRectangle) {
-        System.out.println("rect "+createdRectangle.getBounds());
         assertEquals("Comparing X values",createdRectangle.getX(), expectedRectangle.getX(),1);
         assertEquals("Comparing Y values", createdRectangle.getY(), expectedRectangle.getY(),1);
         assertEquals("Comparing width values", createdRectangle.getWidth(), expectedRectangle.getWidth(),1);
