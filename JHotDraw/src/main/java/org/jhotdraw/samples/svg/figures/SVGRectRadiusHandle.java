@@ -108,6 +108,7 @@ public class SVGRectRadiusHandle extends AbstractHandle {
    }
     @Override
     public void keyPressed(KeyEvent evt) {
+        //will be cahnged
         SVGRectFigure owner = (SVGRectFigure) getOwner();
         Dimension2DDouble oldArc = new Dimension2DDouble(owner.getArcWidth(), owner.getArcHeight());
         Dimension2DDouble newArc = new Dimension2DDouble(owner.getArcWidth(), owner.getArcHeight());
