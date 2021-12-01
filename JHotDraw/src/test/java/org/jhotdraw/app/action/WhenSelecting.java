@@ -19,31 +19,36 @@ import org.jhotdraw.samples.svg.figures.SVGGroupFigure;
  *
  * @author nicol
  */
-public class WhenDeleting extends Stage<WhenDeleting> {
+public class WhenSelecting extends Stage<WhenSelecting> {
     @ExpectedScenarioState
     @ProvidedScenarioState
     private DrawingEditor editor;
 
     @ProvidedScenarioState
-    private Set<Figure> selectedFigures;
+    private Set<Figure> unselectedFiguresOnView;
     
     @ProvidedScenarioState
-    private Set<Figure> unselectedFigures;
+    private Set<Figure> selectedFiguresOnView;
     
-    private DeleteAction deleteAction;
+    private ClearSelectionAction clearSelectionAction;
+    private SelectAllAction selectAction;
     
      @BeforeStage
     public void before() {
-        deleteAction = new DeleteAction();
-
-        selectedFigures = new HashSet<>(editor.getActiveView().getSelectedFigures());
+        clearSelectionAction = new ClearSelectionAction();
+        selectAction = new SelectAllAction();
         
-        unselectedFigures = new HashSet<>(editor.getActiveView().getDrawing().getChildren());
-        unselectedFigures.removeAll(selectedFigures);
+        selectedFiguresOnView = new HashSet<>(editor.getActiveView().getSelectedFigures());
+        unselectedFiguresOnView = new HashSet<>(editor.getActiveView().getDrawing().getChildren());
     }
     
-    WhenDeleting DeleteAction() {
-        deleteAction.actionPerformed(null);
+    WhenSelecting selectingFigures() {
+        selectAction.actionPerformed(null);
+        return this;
+    }
+    
+    WhenSelecting unselectingFigures() {
+        clearSelectionAction.actionPerformed(null);
         return this;
     }
     
