@@ -193,16 +193,7 @@ public class SVGTextFigure
      * @param tx the transformation.
      */
     public void transform(AffineTransform tx) {
-        if (TRANSFORM.get(this) != null ||
-                tx.getType() != (tx.getType() & AffineTransform.TYPE_TRANSLATION)) {
-            if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
-            } else {
-                AffineTransform t = TRANSFORM.getClone(this);
-                t.preConcatenate(tx);
-                TRANSFORM.basicSet(this, t);
-            }
-        } else {
+        if (super.tansform(tx)) {
             for (int i=0; i < coordinates.length; i++) {
                 tx.transform(coordinates[i], coordinates[i]);
             }

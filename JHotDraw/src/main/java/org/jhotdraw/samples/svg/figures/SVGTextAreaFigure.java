@@ -316,18 +316,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      * @param tx the transformation.
      */
     public void transform(AffineTransform tx) {
-        if (TRANSFORM.get(this) != null ||
-                (tx.getType() &
-                (AffineTransform.TYPE_TRANSLATION /*| AffineTransform.TYPE_MASK_SCALE*/)) !=
-                tx.getType()) {
-            if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
-            } else {
-                AffineTransform t = TRANSFORM.getClone(this);
-                t.preConcatenate(tx);
-                TRANSFORM.basicSet(this, t);
-            }
-        } else {
+        if (super.tansform(tx)) {
             Point2D.Double anchor = getStartPoint();
             Point2D.Double lead = getEndPoint();
             setBounds(

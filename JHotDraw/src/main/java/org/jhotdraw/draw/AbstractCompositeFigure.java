@@ -275,7 +275,6 @@ public abstract class AbstractCompositeFigure
             f.transform(tx);
         }
         invalidate();
-    //invalidate();
     }
 
     @Override

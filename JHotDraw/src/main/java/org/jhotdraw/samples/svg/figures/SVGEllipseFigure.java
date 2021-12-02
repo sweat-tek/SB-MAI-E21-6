@@ -153,16 +153,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      * @param tx the transformation.
      */
     public void transform(AffineTransform tx) {
-        if (TRANSFORM.get(this) != null ||
-                (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
-            if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSetClone(this, tx);
-            } else {
-                AffineTransform t = TRANSFORM.getClone(this);
-                t.preConcatenate(tx);
-                TRANSFORM.basicSet(this, t);
-            }
-        } else {
+        if (super.tansform(tx)) {
             Point2D.Double anchor = getStartPoint();
             Point2D.Double lead = getEndPoint();
             setBounds(

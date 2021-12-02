@@ -25,6 +25,7 @@ import javax.swing.*;
 import javax.swing.undo.*;
 import java.io.*;
 import org.jhotdraw.geom.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * AbstractFigure provides the functionality for managing listeners
@@ -588,4 +589,19 @@ public abstract class AbstractFigure
         connectors.add(new ChopRectangleConnector(this));
         return connectors;
     }
+
+	public boolean tansform(AffineTransform tx) {
+        if (TRANSFORM.get(this) != null ||
+                (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
+            if (TRANSFORM.get(this) == null) {
+                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
+            } else {
+                AffineTransform t = TRANSFORM.getClone(this);
+                t.preConcatenate(tx);
+                TRANSFORM.basicSet(this, t);
+            }
+			return true;
+        } 
+		return false;
+	}
 }

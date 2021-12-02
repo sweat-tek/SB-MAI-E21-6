@@ -22,6 +22,7 @@ import org.jhotdraw.draw.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.geom.*;
+import java.lang.IndexOutOfBoundsException;
 
 /**
  * SVGRect.
@@ -223,17 +224,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
      */
     public void transform(AffineTransform tx) {
         invalidateTransformedShape();
-        if (TRANSFORM.get(this) != null ||
-                //              (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
-                (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
-            if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
-            } else {
-                AffineTransform t = TRANSFORM.getClone(this);
-                t.preConcatenate(tx);
-                TRANSFORM.basicSet(this, t);
-            }
-        } else {
+        if (super.tansform(tx)) {
             Point2D.Double anchor = getStartPoint();
             Point2D.Double lead = getEndPoint();
             setBounds(
