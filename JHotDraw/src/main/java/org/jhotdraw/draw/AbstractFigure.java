@@ -632,6 +632,5 @@ public abstract class AbstractFigure
 			g.transform(tx);
 			attribute.basicSet(this, g);
 		}
-
 	}
 }
