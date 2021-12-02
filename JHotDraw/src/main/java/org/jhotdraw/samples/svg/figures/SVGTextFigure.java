@@ -193,7 +193,6 @@ public class SVGTextFigure
      * @param tx the transformation.
      */
     public void transform(AffineTransform tx) {
-        if (super.tansform(tx)) {
             for (int i=0; i < coordinates.length; i++) {
                 tx.transform(coordinates[i], coordinates[i]);
             }
@@ -209,9 +208,13 @@ public class SVGTextFigure
                 g.transform(tx);
                 STROKE_GRADIENT.basicSet(this, g);
             }
-        }
-        invalidate();
     }
+
+	@Override
+	public void postTransformHook(){
+        invalidate();
+	}
+
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
         TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[0]);

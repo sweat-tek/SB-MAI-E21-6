@@ -254,26 +254,29 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
     }
 
-    public void transform(AffineTransform tx) {
-        if (super.tansform(tx)) {
-            for (Figure f : getChildren()) {
-                f.transform(tx);
-            }
-            if (FILL_GRADIENT.get(this) != null &&
-                    !FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
-                Gradient g = FILL_GRADIENT.getClone(this);
-                g.transform(tx);
-                FILL_GRADIENT.basicSet(this, g);
-            }
-            if (STROKE_GRADIENT.get(this) != null &&
-                    !STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
-                Gradient g = STROKE_GRADIENT.getClone(this);
-                g.transform(tx);
-                STROKE_GRADIENT.basicSet(this, g);
-            }
-        }
-        invalidate();
+	@Override
+    public void transformFigure(AffineTransform tx) {
+		for (Figure f : getChildren()) {
+			f.transform(tx);
+		}
+		if (FILL_GRADIENT.get(this) != null &&
+				!FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+			Gradient g = FILL_GRADIENT.getClone(this);
+			g.transform(tx);
+			FILL_GRADIENT.basicSet(this, g);
+		}
+		if (STROKE_GRADIENT.get(this) != null &&
+				!STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+			Gradient g = STROKE_GRADIENT.getClone(this);
+			g.transform(tx);
+			STROKE_GRADIENT.basicSet(this, g);
+		}
     }
+	
+	@Override
+	public void postTransformHook(){
+        invalidate();
+	}
 
     @SuppressWarnings("unchecked")
     @Override

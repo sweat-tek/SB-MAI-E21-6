@@ -193,19 +193,22 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         return cachedHitShape;
     }
 
+	@Override
+	public void preTransformHook(){
+        invalidateTransformedShape();
+	}
+
     /**
      * Transforms the figure.
      * @param tx The transformation.
      */
-    public void transform(AffineTransform tx) {
-        invalidateTransformedShape();
-        if (super.tansform(tx)){
-            Point2D.Double anchor = getStartPoint();
-            Point2D.Double lead = getEndPoint();
-            setBounds(
-                    (Point2D.Double) tx.transform(anchor, anchor),
-                    (Point2D.Double) tx.transform(lead, lead));
-        }
+	@Override
+    public void transformFigure(AffineTransform tx) {
+		Point2D.Double anchor = getStartPoint();
+		Point2D.Double lead = getEndPoint();
+		setBounds(
+				(Point2D.Double) tx.transform(anchor, anchor),
+				(Point2D.Double) tx.transform(lead, lead));
     }
     // ATTRIBUTES
     public void restoreTransformTo(Object geometry) {

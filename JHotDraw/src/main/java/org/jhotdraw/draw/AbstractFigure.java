@@ -590,7 +590,8 @@ public abstract class AbstractFigure
         return connectors;
     }
 
-	public boolean tansform(AffineTransform tx) {
+	public void transform(AffineTransform tx) {
+		preTransformHook();
         if (TRANSFORM.get(this) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
             if (TRANSFORM.get(this) == null) {
@@ -600,8 +601,13 @@ public abstract class AbstractFigure
                 t.preConcatenate(tx);
                 TRANSFORM.basicSet(this, t);
             }
-			return true;
-        } 
-		return false;
+        } else {
+			transformFigure(tx);
+		} 
+		postTransformHook();
 	}
+
+	public void transformFigure(AffineTransform tx){};
+	public void preTransformHook(){}
+	public void postTransformHook(){}
 }

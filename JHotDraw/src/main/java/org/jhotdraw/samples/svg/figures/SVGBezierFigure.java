@@ -116,11 +116,10 @@ public class SVGBezierFigure extends BezierFigure {
         return false;
     }
 
-    public void transform(AffineTransform tx) {
-        if (super.tansform(tx)) {
-            super.transform(tx);
-        }
-    }
+	@Override
+	public void transformFigure(AffineTransform tx) {
+        super.transform(tx);
+	}
 
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {

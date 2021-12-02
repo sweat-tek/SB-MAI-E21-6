@@ -152,28 +152,30 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      *
      * @param tx the transformation.
      */
-    public void transform(AffineTransform tx) {
-        if (super.tansform(tx)) {
-            Point2D.Double anchor = getStartPoint();
-            Point2D.Double lead = getEndPoint();
-            setBounds(
-                    (Point2D.Double) tx.transform(anchor, anchor),
-                    (Point2D.Double) tx.transform(lead, lead));
-            if (FILL_GRADIENT.get(this) != null &&
-                    !FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
-                Gradient g = FILL_GRADIENT.getClone(this);
-                g.transform(tx);
-                FILL_GRADIENT.basicSet(this, g);
-            }
-            if (STROKE_GRADIENT.get(this) != null &&
-                    !STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
-                Gradient g = STROKE_GRADIENT.getClone(this);
-                g.transform(tx);
-                STROKE_GRADIENT.basicSet(this, g);
-            }
-        }
-        invalidate();
+    public void transformFigure(AffineTransform tx) {
+		Point2D.Double anchor = getStartPoint();
+		Point2D.Double lead = getEndPoint();
+		setBounds(
+				(Point2D.Double) tx.transform(anchor, anchor),
+				(Point2D.Double) tx.transform(lead, lead));
+		if (FILL_GRADIENT.get(this) != null &&
+				!FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+			Gradient g = FILL_GRADIENT.getClone(this);
+			g.transform(tx);
+			FILL_GRADIENT.basicSet(this, g);
+		}
+		if (STROKE_GRADIENT.get(this) != null &&
+				!STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+			Gradient g = STROKE_GRADIENT.getClone(this);
+			g.transform(tx);
+			STROKE_GRADIENT.basicSet(this, g);
+		}
     }
+
+	@Override
+	public void postTransformHook(){
+        invalidate();
+	}
 
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
