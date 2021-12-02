@@ -196,7 +196,7 @@ public class SVGTextFigure
 		for (int i=0; i < coordinates.length; i++) {
 			tx.transform(coordinates[i], coordinates[i]);
 		}
-		super.transformAcessories(tx);
+		super.transformAttribute(tx);
     }
 
 	@Override

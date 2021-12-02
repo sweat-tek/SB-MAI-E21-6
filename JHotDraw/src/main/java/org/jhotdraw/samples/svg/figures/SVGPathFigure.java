@@ -259,7 +259,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
 		for (Figure f : getChildren()) {
 			f.transform(tx);
 		}
-		super.transformAcessories(tx);
+		super.transformAttribute(tx);
     }
 	
 	@Override

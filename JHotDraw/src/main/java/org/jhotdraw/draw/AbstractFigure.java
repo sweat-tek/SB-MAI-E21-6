@@ -621,18 +621,17 @@ public abstract class AbstractFigure
 			(Point2D.Double) tx.transform(lead, lead));
 	}
 
-	public void transformAcessories(AffineTransform tx){
-		if (FILL_GRADIENT.get(this) != null &&
-				!FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
-			Gradient g = FILL_GRADIENT.getClone(this);
+	public void transformAttribute(AffineTransform tx){
+		this.transformSVGAttribute(tx, FILL_GRADIENT);
+		this.transformSVGAttribute(tx, STROKE_GRADIENT);
+	}
+	private void transformSVGAttribute(AffineTransform tx, AttributeKey<Gradient> attribute) {
+		if (attribute.get(this) != null &&
+				!attribute.get(this).isRelativeToFigureBounds()) {
+			Gradient g = attribute.getClone(this);
 			g.transform(tx);
-			FILL_GRADIENT.basicSet(this, g);
+			attribute.basicSet(this, g);
 		}
-		if (STROKE_GRADIENT.get(this) != null &&
-				!STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
-			Gradient g = STROKE_GRADIENT.getClone(this);
-			g.transform(tx);
-			STROKE_GRADIENT.basicSet(this, g);
-		}
+
 	}
 }

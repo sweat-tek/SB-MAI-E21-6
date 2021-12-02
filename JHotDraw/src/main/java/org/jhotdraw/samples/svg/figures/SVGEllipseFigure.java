@@ -154,7 +154,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      */
     public void transformFigure(AffineTransform tx) {
 		super.transform2DPoint(tx);
-		super.transformAcessories(tx);
+		super.transformAttribute(tx);
     }
 
 	@Override

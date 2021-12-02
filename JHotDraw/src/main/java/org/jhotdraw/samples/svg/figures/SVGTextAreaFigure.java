@@ -317,10 +317,9 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      */
     public void transformFigure(AffineTransform tx) {
 		super.transform2DPoint(tx);
-		super.transformAcessories(tx);
+		super.transformAttribute(tx);
     }
 
-	@Override
 	public void postTransformHook(){
         invalidate();
 	}
