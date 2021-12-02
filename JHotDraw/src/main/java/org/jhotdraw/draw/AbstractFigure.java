@@ -26,6 +26,8 @@ import javax.swing.undo.*;
 import java.io.*;
 import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.samples.svg.Gradient;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * AbstractFigure provides the functionality for managing listeners
@@ -610,4 +612,27 @@ public abstract class AbstractFigure
 	public void transformFigure(AffineTransform tx){};
 	public void preTransformHook(){}
 	public void postTransformHook(){}
+
+	public void transform2DPoint(AffineTransform tx) {
+		Point2D.Double anchor = getStartPoint();
+		Point2D.Double lead = getEndPoint();
+		setBounds(
+			(Point2D.Double) tx.transform(anchor, anchor),
+			(Point2D.Double) tx.transform(lead, lead));
+	}
+
+	public void transformAcessories(AffineTransform tx){
+		if (FILL_GRADIENT.get(this) != null &&
+				!FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+			Gradient g = FILL_GRADIENT.getClone(this);
+			g.transform(tx);
+			FILL_GRADIENT.basicSet(this, g);
+		}
+		if (STROKE_GRADIENT.get(this) != null &&
+				!STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+			Gradient g = STROKE_GRADIENT.getClone(this);
+			g.transform(tx);
+			STROKE_GRADIENT.basicSet(this, g);
+		}
+	}
 }

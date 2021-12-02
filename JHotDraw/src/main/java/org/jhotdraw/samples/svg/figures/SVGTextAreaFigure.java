@@ -316,23 +316,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      * @param tx the transformation.
      */
     public void transformFigure(AffineTransform tx) {
-		Point2D.Double anchor = getStartPoint();
-		Point2D.Double lead = getEndPoint();
-		setBounds(
-				(Point2D.Double) tx.transform(anchor, anchor),
-				(Point2D.Double) tx.transform(lead, lead));
-		if (FILL_GRADIENT.get(this) != null &&
-				!FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
-			Gradient g = FILL_GRADIENT.getClone(this);
-			g.transform(tx);
-			FILL_GRADIENT.basicSet(this, g);
-		}
-		if (STROKE_GRADIENT.get(this) != null &&
-				!STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
-			Gradient g = STROKE_GRADIENT.getClone(this);
-			g.transform(tx);
-			STROKE_GRADIENT.basicSet(this, g);
-		}
+		super.transform2DPoint(tx);
+		super.transformAcessories(tx);
     }
 
 	@Override

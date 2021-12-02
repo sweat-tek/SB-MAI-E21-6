@@ -204,11 +204,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      */
 	@Override
     public void transformFigure(AffineTransform tx) {
-		Point2D.Double anchor = getStartPoint();
-		Point2D.Double lead = getEndPoint();
-		setBounds(
-				(Point2D.Double) tx.transform(anchor, anchor),
-				(Point2D.Double) tx.transform(lead, lead));
+		super.transform2DPoint(tx);
     }
     // ATTRIBUTES
     public void restoreTransformTo(Object geometry) {

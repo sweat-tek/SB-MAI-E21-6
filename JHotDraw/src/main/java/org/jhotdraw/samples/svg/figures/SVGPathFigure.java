@@ -259,18 +259,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
 		for (Figure f : getChildren()) {
 			f.transform(tx);
 		}
-		if (FILL_GRADIENT.get(this) != null &&
-				!FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
-			Gradient g = FILL_GRADIENT.getClone(this);
-			g.transform(tx);
-			FILL_GRADIENT.basicSet(this, g);
-		}
-		if (STROKE_GRADIENT.get(this) != null &&
-				!STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
-			Gradient g = STROKE_GRADIENT.getClone(this);
-			g.transform(tx);
-			STROKE_GRADIENT.basicSet(this, g);
-		}
+		super.transformAcessories(tx);
     }
 	
 	@Override

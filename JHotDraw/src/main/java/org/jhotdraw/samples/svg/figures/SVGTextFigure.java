@@ -192,22 +192,11 @@ public class SVGTextFigure
      *
      * @param tx the transformation.
      */
-    public void transform(AffineTransform tx) {
-            for (int i=0; i < coordinates.length; i++) {
-                tx.transform(coordinates[i], coordinates[i]);
-            }
-            if (FILL_GRADIENT.get(this) != null &&
-                    ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
-                Gradient g = FILL_GRADIENT.getClone(this);
-                g.transform(tx);
-                FILL_GRADIENT.basicSet(this, g);
-            }
-            if (STROKE_GRADIENT.get(this) != null && 
-                    ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
-                Gradient g = STROKE_GRADIENT.getClone(this);
-                g.transform(tx);
-                STROKE_GRADIENT.basicSet(this, g);
-            }
+    public void transformFigure(AffineTransform tx) {
+		for (int i=0; i < coordinates.length; i++) {
+			tx.transform(coordinates[i], coordinates[i]);
+		}
+		super.transformAcessories(tx);
     }
 
 	@Override
