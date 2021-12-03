@@ -11,7 +11,7 @@
             </goals>
             <properties>
                 <exec.vmArgs>-javaagent:C:\Users\simo7\.m2\repository\org\aspectj\aspectjweaver\1.8.6\aspectjweaver-1.8.6.jar -ea</exec.vmArgs>
-                <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
+                <exec.args>-classpath %classpath ${packageClassName} ${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.appArgs></exec.appArgs>
                 <exec.mainClass>org.jhotdraw.samples.svg.Main</exec.mainClass>
                 <exec.executable>java</exec.executable>
@@ -28,7 +28,7 @@
             </goals>
             <properties>
                 <exec.vmArgs>-javaagent:C:\Users\simo7\.m2\repository\org\aspectj\aspectjweaver\1.8.6\aspectjweaver-1.8.6.jar -ea -agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</exec.vmArgs>
-                <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
+                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath ${packageClassName} ${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.appArgs></exec.appArgs>
                 <exec.mainClass>${packageClassName}</exec.mainClass>
                 <exec.executable>java</exec.executable>
@@ -46,7 +46,7 @@
             </goals>
             <properties>
                 <exec.vmArgs>-javaagent:C:\Users\simo7\.m2\repository\org\aspectj\aspectjweaver\1.8.6\aspectjweaver-1.8.6.jar -ea</exec.vmArgs>
-                <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
+                <exec.args>-classpath %classpath ${packageClassName} ${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.mainClass>${packageClassName}</exec.mainClass>
                 <exec.executable>java</exec.executable>
                 <exec.appArgs></exec.appArgs>
