@@ -47,7 +47,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      */
     protected boolean isWorking;
     
-    protected DrawingEditor editor;
+    public DrawingEditor editor;
     protected Point anchor = new Point();
     protected EventListenerList listenerList = new EventListenerList();
     private DrawingEditorProxy editorProxy;
@@ -101,13 +101,13 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         return isActive;
     }
     
-    protected DrawingView getView() {
+    public DrawingView getView() {
         return editor.getActiveView();
     }
     protected DrawingEditor getEditor() {
         return editor;
     }
-    protected Drawing getDrawing() {
+    public Drawing getDrawing() {
         return getView().getDrawing();
     }
     protected Point2D.Double viewToDrawing(Point p) {
