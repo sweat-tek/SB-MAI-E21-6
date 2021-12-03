@@ -1,6 +1,8 @@
+/JHotDraw/target/
 */target/*
 */FeatureTraces/*
 .idea/
+**/JHotDraw/nbactions.xml
 JHotDraw/JHotDraw.iml
 JHotDraw/.classpath
 JHotDraw/.project

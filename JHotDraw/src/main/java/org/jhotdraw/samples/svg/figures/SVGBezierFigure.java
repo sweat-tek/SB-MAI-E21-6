@@ -116,20 +116,10 @@ public class SVGBezierFigure extends BezierFigure {
         return false;
     }
 
-    public void transform(AffineTransform tx) {
-        if (TRANSFORM.get(this) != null ||
-                (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
-            if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSetClone(this, tx);
-            } else {
-                AffineTransform t = TRANSFORM.getClone(this);
-                t.preConcatenate(tx);
-                TRANSFORM.basicSet(this, t);
-            }
-        } else {
-            super.transform(tx);
-        }
-    }
+	@Override
+	public void transformFigure(AffineTransform tx) {
+        super.transform(tx);
+	}
 
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
