@@ -19,7 +19,6 @@ import org.jhotdraw.draw.FloatingTextArea;
 import org.jhotdraw.draw.QuadTreeDrawing;
 import org.jhotdraw.draw.TextAreaCreationTool;
 import org.jhotdraw.draw.TextHolderFigure;
-import static jdk.javadoc.internal.tool.JavadocClassFinder.instance;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
 import org.junit.After;
 import org.junit.AfterClass;
