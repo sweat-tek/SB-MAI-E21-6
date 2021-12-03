@@ -19,6 +19,7 @@ import org.jhotdraw.draw.TextHolderFigure;
 import org.jhotdraw.draw.action.ThenFiguresGrouped;
 import org.jhotdraw.samples.svg.figures.SVGTextAreaFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -32,7 +33,7 @@ public class ThenUserCanSeeTheText extends Stage<ThenUserCanSeeTheText> {
     
     
     
-            @BeforeStage
+    @BeforeStage
     private void before() {
     textHolder = new SVGTextFigure("Hello");
     instance = new TextAreaCreationTool(textHolder);
@@ -44,8 +45,10 @@ public class ThenUserCanSeeTheText extends Stage<ThenUserCanSeeTheText> {
     }
     
     ThenUserCanSeeTheText TheUserCanEditTheText() {
-    instance.beginEdit(textHolder);
-    assertTrue(instance.getDrawing().canConnect());
+    instance.getDrawing().add(textHolder);
+    textHolder.setText("text");
+    String result = "text";
+    assertEquals(textHolder.getText(), result);
     return this; 
 }
 

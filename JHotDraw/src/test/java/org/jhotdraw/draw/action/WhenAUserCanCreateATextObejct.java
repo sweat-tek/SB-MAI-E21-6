@@ -41,7 +41,7 @@ public class WhenAUserCanCreateATextObejct extends Stage<WhenAUserCanCreateAText
     }
 
 WhenAUserCanCreateATextObejct AUserCreatesATextFigure() {
-    TextHolderFigure textHolder = new SVGTextAreaFigure("Hello1");
+    TextHolderFigure textHolder = new SVGTextFigure("Hello");
      return this;
 }    
 
