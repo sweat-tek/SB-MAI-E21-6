@@ -38,8 +38,7 @@ public class SelectionComponentDisplayer
         this.component = component;
         if (editor.getActiveView() != null) {
             DrawingView view = editor.getActiveView();
-            view.addPropertyChangeListener(this);
-            view.addFigureSelectionListener(this);
+            this.addListener(view);
         }
         editor.addPropertyChangeListener(this);
         updateVisibility();
@@ -50,13 +49,11 @@ public class SelectionComponentDisplayer
         if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
             DrawingView view = (DrawingView) evt.getOldValue();
             if (view != null) {
-                view.removePropertyChangeListener(this);
-                view.removeFigureSelectionListener(this);
+                this.removeListener(view);
             }
             view = (DrawingView) evt.getNewValue();
             if (view != null) {
-                view.addPropertyChangeListener(this);
-                view.addFigureSelectionListener(this);
+                this.addListener(view);
             }
             updateVisibility();
         } else if (name == DrawingEditor.TOOL_PROPERTY) {
@@ -64,6 +61,7 @@ public class SelectionComponentDisplayer
         }
     }
 
+    @Override
     public void selectionChanged(FigureSelectionEvent evt) {
         updateVisibility();
     }
@@ -89,8 +87,7 @@ public class SelectionComponentDisplayer
         if (editor != null) {
             if (editor.getActiveView() != null) {
                 DrawingView view = editor.getActiveView();
-                view.removePropertyChangeListener(this);
-                view.removeFigureSelectionListener(this);
+                this.removeListener(view);
             }
             editor.removePropertyChangeListener(this);
             editor = null;
@@ -105,6 +102,18 @@ public class SelectionComponentDisplayer
 
     public void setVisibleIfCreationTool(boolean newValue) {
         isVisibleIfCreationTool = newValue;
+    }
+    
+    //Create method for adding listeners to avoid code duplications, as same code was used multiple times
+    private void addListener(DrawingView view) {
+                view.addPropertyChangeListener(this);
+                view.addFigureSelectionListener(this);
+    }
+    
+    //Create method for removeing listeners to avoid code duplications, as same code was used multiple times
+    private void removeListener(DrawingView view) {
+                view.removePropertyChangeListener(this);
+                view.removeFigureSelectionListener(this);
     }
 }
 

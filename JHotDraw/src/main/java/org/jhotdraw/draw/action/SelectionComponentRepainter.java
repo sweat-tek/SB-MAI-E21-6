@@ -13,10 +13,8 @@
  */
 package org.jhotdraw.draw.action;
 
-import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import java.beans.*;
 import javax.swing.*;
-import org.jhotdraw.app.JHotDrawFeatures;
 import org.jhotdraw.draw.*;
 
 /**
@@ -32,17 +30,17 @@ public class SelectionComponentRepainter extends FigureAdapter
     private DrawingEditor editor;
     private JComponent component;
 
+    
+    //Reduced code duplication: if code can be split into methods, it's generally a good idea, 
+    // as it can reduce code duplications in further work
     public SelectionComponentRepainter(DrawingEditor editor, JComponent component) {
         this.editor = editor;
         this.component = component;
         if (editor != null) {
             if (editor.getActiveView() != null) {
                 DrawingView view = editor.getActiveView();
-                view.addPropertyChangeListener(this);
-                view.addFigureSelectionListener(this);
-                if (view.getDrawing() != null) {
-                    view.getDrawing().addFigureListener(this);
-                }
+    
+                this.addListener(view);
             }
             editor.addPropertyChangeListener(this);
         }
@@ -52,27 +50,23 @@ public class SelectionComponentRepainter extends FigureAdapter
     public void attributeChanged(FigureEvent evt) {
         component.repaint();
     }
-
+    
+    //Reduced code duplication by using new methods: addListener/removeListener
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
         if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
             DrawingView view = (DrawingView) evt.getOldValue();
             if (view != null) {
-                view.removePropertyChangeListener(this);
-                view.removeFigureSelectionListener(this);
-                if (view.getDrawing() != null) {
-                    view.getDrawing().removeFigureListener(this);
-                }
+                this.removeListener(view);
             }
+            
             view = (DrawingView) evt.getNewValue();
+            
             if (view != null) {
-                view.addPropertyChangeListener(this);
-                view.addFigureSelectionListener(this);
-                if (view.getDrawing() != null) {
-                    view.getDrawing().addFigureListener(this);
-                }
+                this.addListener(view);
             }
             component.repaint();
+            
         } else if (name == DrawingView.DRAWING_PROPERTY) {
             Drawing drawing = (Drawing) evt.getOldValue();
             if (drawing != null) {
@@ -83,29 +77,46 @@ public class SelectionComponentRepainter extends FigureAdapter
                 drawing.addFigureListener(this);
             }
             component.repaint();
+            
         } else {
             component.repaint();
         }
     }
 
+    @Override
     public void selectionChanged(FigureSelectionEvent evt) {
         component.repaint();
     }
 
+    //Reduced code duplication by using new method: removeListener
     public void dispose() {
         if (editor != null) {
             if (editor.getActiveView() != null) {
-                DrawingView view = editor.getActiveView();
-                view.removePropertyChangeListener(this);
-                view.removeFigureSelectionListener(this);
-                if (view.getDrawing() != null) {
-                    view.getDrawing().removeFigureListener(this);
-                }
+                DrawingView view = editor.getActiveView(); 
+                this.removeListener(view);
             }
             editor.removePropertyChangeListener(this);
             editor = null;
         }
         component = null;
+    }
+    
+    //Create method for adding listeners to avoid code duplications, as same code was used multiple times
+    private void addListener(DrawingView view) {
+                view.addPropertyChangeListener(this);
+                view.addFigureSelectionListener(this);
+                if (view.getDrawing() != null) {
+                    view.getDrawing().addFigureListener(this);
+                }
+    }
+    
+    //Create method for removeing listeners to avoid code duplications, as same code was used multiple times
+    private void removeListener(DrawingView view) {
+                view.removePropertyChangeListener(this);
+                view.removeFigureSelectionListener(this);
+                if (view.getDrawing() != null) {
+                    view.getDrawing().removeFigureListener(this);
+                }
     }
 }
 

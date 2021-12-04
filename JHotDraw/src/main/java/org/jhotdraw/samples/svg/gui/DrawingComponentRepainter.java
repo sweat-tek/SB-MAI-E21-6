@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import org.jhotdraw.draw.action.*;
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
@@ -31,16 +30,15 @@ public class DrawingComponentRepainter extends FigureAdapter
     private DrawingEditor editor;
     private JComponent component;
 
+    //Reduced code duplication: if code can be split into methods, it's generally a good idea, 
+    // as it can reduce code duplications in further work
     public DrawingComponentRepainter(DrawingEditor editor, JComponent component) {
         this.editor = editor;
         this.component = component;
         if (editor != null) {
             if (editor.getActiveView() != null) {
                 DrawingView view = editor.getActiveView();
-                view.addPropertyChangeListener(this);
-                if (view.getDrawing() != null) {
-                    view.getDrawing().addFigureListener(this);
-                }
+                this.addListener(view);
             }
 
             editor.addPropertyChangeListener(this);
@@ -52,22 +50,18 @@ public class DrawingComponentRepainter extends FigureAdapter
         component.repaint();
     }
 
+    //Reduced code duplication by using new methods: addListener/removeListener
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
         if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
             DrawingView view = (DrawingView) evt.getOldValue();
             if (view != null) {
-                view.removePropertyChangeListener(this);
-                if (view.getDrawing() != null) {
-                    view.getDrawing().removeFigureListener(this);
-                }
+                this.removeListener(view);
             }
             view = (DrawingView) evt.getNewValue();
             if (view != null) {
-                view.addPropertyChangeListener(this);
-                if (view.getDrawing() != null) {
-                    view.getDrawing().addFigureListener(this);
-                }
+                this.addListener(view);
             }
             component.repaint();
         } else if (name == DrawingView.DRAWING_PROPERTY) {
@@ -85,19 +79,34 @@ public class DrawingComponentRepainter extends FigureAdapter
         }
     }
 
+    //Reduced code duplication by using new method: removeListener
     public void dispose() {
         if (editor != null) {
             if (editor.getActiveView() != null) {
                 DrawingView view = editor.getActiveView();
-                view.removePropertyChangeListener(this);
-                if (view.getDrawing() != null) {
-                    view.getDrawing().removeFigureListener(this);
-                }
+                this.removeListener(view);
             }
             editor.removePropertyChangeListener(this);
             editor = null;
         }
         component = null;
     }
+    
+    //Create method for adding listeners to avoid code duplications, as same code was used multiple times
+    private void addListener(DrawingView view) {
+            view.addPropertyChangeListener(this);
+            if (view.getDrawing() != null) {
+                view.getDrawing().addFigureListener(this);
+            }
+    }
+    
+    //Create method for removeing listeners to avoid code duplications, as same code was used multiple times
+    private void removeListener(DrawingView view) {
+            view.removePropertyChangeListener(this);
+            if (view.getDrawing() != null) {
+                view.getDrawing().removeFigureListener(this);
+            }
+    }
 }
+
 

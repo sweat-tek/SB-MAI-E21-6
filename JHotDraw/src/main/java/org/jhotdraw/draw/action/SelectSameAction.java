@@ -18,7 +18,6 @@ import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.Figure;
 import java.util.*;
-import javax.swing.*;
 import org.jhotdraw.app.JHotDrawFeatures;
 /**
  * SelectSameAction.
