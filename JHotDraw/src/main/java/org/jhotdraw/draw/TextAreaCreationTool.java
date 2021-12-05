@@ -19,6 +19,8 @@ import java.awt.geom.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.app.JHotDrawFeatures;
 import org.jhotdraw.geom.*;
@@ -180,7 +182,7 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
     }
 
     @FeatureEntryPoint(JHotDrawFeatures.TEXT_AREA_TOOL)
-    protected void beginEdit(TextHolderFigure textHolder) {
+    public void beginEdit(TextHolderFigure textHolder) {
         if (textArea == null) {
             textArea = new FloatingTextArea();
 
@@ -212,7 +214,7 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
     }
 
     @FeatureEntryPoint(JHotDrawFeatures.TEXT_AREA_TOOL)
-    protected void endEdit() {
+    public void endEdit() {
         if (typingTarget != null) {
             typingTarget.willChange();
 
@@ -231,30 +233,8 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
                 }
             }
 
-            UndoableEdit edit = new AbstractUndoableEdit() {
-
-                @Override
-                public String getPresentationName() {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                    return labels.getString("attribute.text.text");
-                }
-
-                @Override
-                public void undo() {
-                    super.undo();
-                    editedFigure.willChange();
-                    editedFigure.setText(oldText);
-                    editedFigure.changed();
-                }
-
-                @Override
-                public void redo() {
-                    super.redo();
-                    editedFigure.willChange();
-                    editedFigure.setText(newText);
-                    editedFigure.changed();
-                }
-            };
+           UndoableEdit edit = undoRedoCheck(editedFigure, oldText,newText);
+           
             getDrawing().fireUndoableEditHappened(edit);
 
             typingTarget.changed();
@@ -270,5 +250,8 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         if (isToolDoneAfterCreation()) {
             fireToolDone();
         }
+    }
+    public FloatingTextArea getAddedTextArea() {
+        return textArea;
     }
 }

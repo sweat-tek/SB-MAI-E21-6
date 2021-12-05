@@ -192,35 +192,18 @@ public class SVGTextFigure
      *
      * @param tx the transformation.
      */
-    public void transform(AffineTransform tx) {
-        if (TRANSFORM.get(this) != null ||
-                tx.getType() != (tx.getType() & AffineTransform.TYPE_TRANSLATION)) {
-            if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
-            } else {
-                AffineTransform t = TRANSFORM.getClone(this);
-                t.preConcatenate(tx);
-                TRANSFORM.basicSet(this, t);
-            }
-        } else {
-            for (int i=0; i < coordinates.length; i++) {
-                tx.transform(coordinates[i], coordinates[i]);
-            }
-            if (FILL_GRADIENT.get(this) != null &&
-                    ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
-                Gradient g = FILL_GRADIENT.getClone(this);
-                g.transform(tx);
-                FILL_GRADIENT.basicSet(this, g);
-            }
-            if (STROKE_GRADIENT.get(this) != null && 
-                    ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
-                Gradient g = STROKE_GRADIENT.getClone(this);
-                g.transform(tx);
-                STROKE_GRADIENT.basicSet(this, g);
-            }
-        }
-        invalidate();
+    public void transformFigure(AffineTransform tx) {
+		for (int i=0; i < coordinates.length; i++) {
+			tx.transform(coordinates[i], coordinates[i]);
+		}
+		super.transformAttribute(tx);
     }
+
+	@Override
+	public void postTransformHook(){
+        invalidate();
+	}
+
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
         TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[0]);

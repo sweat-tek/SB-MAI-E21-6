@@ -25,6 +25,9 @@ import javax.swing.*;
 import javax.swing.undo.*;
 import java.io.*;
 import org.jhotdraw.geom.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.samples.svg.Gradient;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * AbstractFigure provides the functionality for managing listeners
@@ -588,4 +591,46 @@ public abstract class AbstractFigure
         connectors.add(new ChopRectangleConnector(this));
         return connectors;
     }
+
+	public void transform(AffineTransform tx) {
+		preTransformHook();
+        if (TRANSFORM.get(this) != null ||
+                (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
+            if (TRANSFORM.get(this) == null) {
+                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
+            } else {
+                AffineTransform t = TRANSFORM.getClone(this);
+                t.preConcatenate(tx);
+                TRANSFORM.basicSet(this, t);
+            }
+        } else {
+			transformFigure(tx);
+		} 
+		postTransformHook();
+	}
+
+	public void transformFigure(AffineTransform tx){};
+	public void preTransformHook(){}
+	public void postTransformHook(){}
+
+	public void transform2DPoint(AffineTransform tx) {
+		Point2D.Double anchor = getStartPoint();
+		Point2D.Double lead = getEndPoint();
+		setBounds(
+			(Point2D.Double) tx.transform(anchor, anchor),
+			(Point2D.Double) tx.transform(lead, lead));
+	}
+
+	public void transformAttribute(AffineTransform tx){
+		this.transformSVGAttribute(tx, FILL_GRADIENT);
+		this.transformSVGAttribute(tx, STROKE_GRADIENT);
+	}
+	private void transformSVGAttribute(AffineTransform tx, AttributeKey<Gradient> attribute) {
+		if (attribute.get(this) != null &&
+				!attribute.get(this).isRelativeToFigureBounds()) {
+			Gradient g = attribute.getClone(this);
+			g.transform(tx);
+			attribute.basicSet(this, g);
+		}
+	}
 }
