@@ -69,6 +69,10 @@ public class TestSelectionComponentRepainter {
     @Test
     public void removeListener() {
         DefaultDrawingView view = new DefaultDrawingView();
+        selectCompRepainter.addListener(view);
+        
+        Assert.assertTrue(Arrays.asList(view.getPropertyChangeListeners()).contains(selectCompRepainter));
+        Assert.assertTrue(Arrays.asList(view.getListeners(FigureSelectionListener.class)).contains(selectCompRepainter));
         
         //Removes listener - array should be empty
         selectCompRepainter.removeListener(view);
