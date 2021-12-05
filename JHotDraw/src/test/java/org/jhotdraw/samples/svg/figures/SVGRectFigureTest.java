@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+
 
 /**
  *
