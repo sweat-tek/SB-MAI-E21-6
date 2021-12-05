@@ -45,16 +45,23 @@ public class TestSelectionComponentRepainter {
     public void addListener() {
         DefaultDrawingView view = new DefaultDrawingView();
 
-        
+        //Checks if empty - which they should be
         Assert.assertFalse(Arrays.asList(view.getPropertyChangeListeners()).contains(selectCompRepainter));
         Assert.assertFalse(Arrays.asList(view.getListeners(FigureSelectionListener.class)).contains(selectCompRepainter));
-
         
+        //Checks if not empty
+        //Assert.assertTrue(Arrays.asList(view.getPropertyChangeListeners()).contains(selectCompRepainter));
+        //Assert.assertTrue(Arrays.asList(view.getListeners(FigureSelectionListener.class)).contains(selectCompRepainter));
+        
+        
+        //Adds listener, array shouldnt be empty anymore
         selectCompRepainter.addListener(view);
-
         
         Assert.assertTrue(Arrays.asList(view.getPropertyChangeListeners()).contains(selectCompRepainter));
         Assert.assertTrue(Arrays.asList(view.getListeners(FigureSelectionListener.class)).contains(selectCompRepainter));
+        
+        //Assert.assertFalse(Arrays.asList(view.getPropertyChangeListeners()).contains(selectCompRepainter));
+        //Assert.assertFalse(Arrays.asList(view.getListeners(FigureSelectionListener.class)).contains(selectCompRepainter));
     }
 
     
@@ -62,11 +69,15 @@ public class TestSelectionComponentRepainter {
     @Test
     public void removeListener() {
         DefaultDrawingView view = new DefaultDrawingView();
-
+        
+        //Removes listener - array should be empty
         selectCompRepainter.removeListener(view);
-
+        
         Assert.assertFalse(Arrays.asList(view.getPropertyChangeListeners()).contains(selectCompRepainter));
         Assert.assertFalse(Arrays.asList(view.getListeners(FigureSelectionListener.class)).contains(selectCompRepainter));
+        
+        //Assert.assertTrue(Arrays.asList(view.getPropertyChangeListeners()).contains(selectCompRepainter));
+        //Assert.assertTrue(Arrays.asList(view.getListeners(FigureSelectionListener.class)).contains(selectCompRepainter));
         
         
     }
