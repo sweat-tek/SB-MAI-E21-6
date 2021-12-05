@@ -115,7 +115,7 @@ public class ZoomActionTest {
         ZoomAction instance = new ZoomAction(view, 2.0, button);
         instance.actionPerformed(e);
         Rectangle rect = instance.getView().getComponent().getVisibleRect();
-        assertEquals(200,rect.width);
+        assertEquals(100,rect.width);
     }
     
 }

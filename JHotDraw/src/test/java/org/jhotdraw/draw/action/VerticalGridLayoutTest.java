@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  *
@@ -21,11 +22,40 @@ import static org.junit.Assert.*;
  */
 public class VerticalGridLayoutTest {
     
+    private static Container container;
+    private static Dimension dimensionPref;
+    private static Dimension dimensionMin;
+    private static VerticalGridLayout vlg;
+    private static Component component;
+
+    private static String minimum = "minimum";
+    private static String prefered = "prefered";
+    
     public VerticalGridLayoutTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
+        vlg = mock(VerticalGridLayout.class);
+        
+        dimensionPref = mock(Dimension.class);
+        dimensionMin = mock(Dimension.class);
+
+        component = mock(Component.class);
+        container = mock(Container.class);
+        
+        dimensionPref.setSize(200, 200);
+        dimensionMin.setSize(100, 100);
+        
+        component.setPreferredSize(dimensionPref);
+        component.setMinimumSize(dimensionMin);
+        
+        when(component.getMaximumSize()).thenReturn(dimensionPref);
+        when(component.getMinimumSize()).thenReturn(dimensionMin);
+        when(container.getComponent(0)).thenReturn(component);
+        when(vlg.layoutSize(container, minimum)).thenReturn(dimensionMin);
+        when(vlg.layoutSize(container, prefered)).thenReturn(dimensionPref);
+
         
         
     }
@@ -49,7 +79,7 @@ public class VerticalGridLayoutTest {
     public void testGetRows() {
         System.out.println("getRows");
         VerticalGridLayout instance = new VerticalGridLayout();
-        int expResult = 0;
+        int expResult = 1;
         int result = instance.getRows();
         assertEquals(expResult, result);
     }
@@ -166,102 +196,30 @@ public class VerticalGridLayoutTest {
         assertEquals(vgap,instance.getVgap());
     }
 
-    /**
-     * Test of addLayoutComponent method, of class VerticalGridLayout.
-     */
-    @Test
-    public void testAddLayoutComponent() {
-        System.out.println("addLayoutComponent");
-        String name = "";
-        Component comp = null;
-        VerticalGridLayout instance = new VerticalGridLayout();
-        instance.addLayoutComponent(name, comp);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of removeLayoutComponent method, of class VerticalGridLayout.
-     */
-    @Test
-    public void testRemoveLayoutComponent() {
-        System.out.println("removeLayoutComponent");
-        Component comp = null;
-        VerticalGridLayout instance = new VerticalGridLayout();
-        instance.removeLayoutComponent(comp);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of layoutSize method, of class VerticalGridLayout.
      */
     @Test
-    public void testLayoutSize() {
+    public void testLayoutSizePref() {
         System.out.println("layoutSize");
-        Container parent = null;
-        String size = "";
-        VerticalGridLayout instance = new VerticalGridLayout();
-        Dimension expResult = null;
+        Container parent = container;
+        String size = "prefered";
+        VerticalGridLayout instance = vlg;
+        Dimension expResult = dimensionPref;
         Dimension result = instance.layoutSize(parent, size);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of preferredLayoutSize method, of class VerticalGridLayout.
-     */
+    
     @Test
-    public void testPreferredLayoutSize() {
-        System.out.println("preferredLayoutSize");
-        Container parent = null;
-        VerticalGridLayout instance = new VerticalGridLayout();
-        Dimension expResult = null;
-        Dimension result = instance.preferredLayoutSize(parent);
+    public void testLayoutSizeMin() {
+        System.out.println("layoutSize");
+        Container parent = container;
+        String size = "minimum";
+        VerticalGridLayout instance = vlg;
+        Dimension expResult = dimensionMin;
+        Dimension result = instance.layoutSize(parent, size);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of minimumLayoutSize method, of class VerticalGridLayout.
-     */
-    @Test
-    public void testMinimumLayoutSize() {
-        System.out.println("minimumLayoutSize");
-        Container parent = null;
-        VerticalGridLayout instance = new VerticalGridLayout();
-        Dimension expResult = null;
-        Dimension result = instance.minimumLayoutSize(parent);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setBoundsLeftToRight method, of class VerticalGridLayout.
-     */
-    @Test
-    public void testSetBoundsLeftToRight() {
-        System.out.println("setBoundsLeftToRight");
-        LayoutContainerData data = null;
-        VerticalGridLayout instance = new VerticalGridLayout();
-        instance.setBoundsLeftToRight(data);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of layoutContainer method, of class VerticalGridLayout.
-     */
-    @Test
-    public void testLayoutContainer() {
-        System.out.println("layoutContainer");
-        Container parent = null;
-        VerticalGridLayout instance = new VerticalGridLayout();
-        instance.layoutContainer(parent);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+  
 }
