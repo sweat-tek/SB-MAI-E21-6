@@ -52,6 +52,7 @@ public class SelectionComponentRepainter extends FigureAdapter
     }
     
     //Reduced code duplication by using new methods: addListener/removeListener
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
         if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
@@ -102,7 +103,7 @@ public class SelectionComponentRepainter extends FigureAdapter
     }
     
     //Create method for adding listeners to avoid code duplications, as same code was used multiple times
-    private void addListener(DrawingView view) {
+    public void addListener(DrawingView view) {
                 view.addPropertyChangeListener(this);
                 view.addFigureSelectionListener(this);
                 if (view.getDrawing() != null) {
@@ -111,12 +112,13 @@ public class SelectionComponentRepainter extends FigureAdapter
     }
     
     //Create method for removeing listeners to avoid code duplications, as same code was used multiple times
-    private void removeListener(DrawingView view) {
+    public void removeListener(DrawingView view) {
                 view.removePropertyChangeListener(this);
                 view.removeFigureSelectionListener(this);
                 if (view.getDrawing() != null) {
                     view.getDrawing().removeFigureListener(this);
                 }
     }
+
 }
 
