@@ -15,7 +15,7 @@ import org.junit.Test;
 public class DeletionBehaviourTest extends ScenarioTest<GivenFiguresToDelete, WhenDeletedFigure, ThenDeletingFigure> {
     @Test
     public void selectingSimpleFiguresAndDeletingThemResultsInJustThoseFiguresBeingDeleted(){
-    given().someSelectedFigures();
+    given().someSelectedFigures().someUnselectedFigures();
             
     when().deleting();
     then().selectedFiguresDeleted();
