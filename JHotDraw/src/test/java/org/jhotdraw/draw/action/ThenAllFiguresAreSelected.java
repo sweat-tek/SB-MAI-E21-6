@@ -21,10 +21,10 @@ public class ThenAllFiguresAreSelected extends Stage<ThenAllFiguresAreSelected> 
 
     //Test only passes if numberOfSelectedFigures is = 25 (or whatever the number of drawn figures are) 
     @ExpectedScenarioState
-    private final int numberOfSelectedFigures = 25;
+    private final int numberOfExpectedSelectedFigures = 25;
 
     public ThenAllFiguresAreSelected allFiguresAreSelectedTest() {
-        Assert.assertEquals(numberOfSelectedFigures, drawingView.getSelectionCount());
+        Assert.assertEquals(numberOfExpectedSelectedFigures, drawingView.getSelectionCount());
 
         return self();
     }

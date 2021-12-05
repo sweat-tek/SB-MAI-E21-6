@@ -20,11 +20,8 @@ public class WhenAllFiguresAreSelected extends Stage<WhenAllFiguresAreSelected> 
     private DefaultDrawingView drawingView;
 
     public WhenAllFiguresAreSelected allFiguresAreSelected() {
-        Assert.assertEquals(0, drawingView.getSelectionCount());
         drawingView.selectAll();
         
-        Assert.assertNotEquals(0, drawingView.getSelectionCount());
-
         return self();
     }
 }

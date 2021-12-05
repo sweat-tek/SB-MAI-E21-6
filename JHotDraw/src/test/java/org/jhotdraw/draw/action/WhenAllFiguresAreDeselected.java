@@ -20,12 +20,10 @@ public class WhenAllFiguresAreDeselected extends Stage<WhenAllFiguresAreDeselect
     private DefaultDrawingView drawingView;
 
     public WhenAllFiguresAreDeselected allFiguresAreDeselected() {
-        Assert.assertEquals(0, drawingView.getSelectionCount());
         drawingView.selectAll();
         
         drawingView.clearSelection();
         
-        Assert.assertEquals(0, drawingView.getSelectionCount());
 
         return self();
     }

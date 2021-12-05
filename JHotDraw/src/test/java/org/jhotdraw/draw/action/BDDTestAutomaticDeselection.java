@@ -16,7 +16,7 @@ public class BDDTestAutomaticDeselection extends ScenarioTest<GivenADrawnFigure,
     
     //Passes as long as ThenAllFiguresAreDeselected.numberOfSelectedFigures has a value of 0 - as it should
     @Test
-    public void selectionBDDTest() {
+    public void deselectionBDDTest() {
         given().aDrawnFigure();
         when().allFiguresAreDeselected();
         then().allFiguresAreDeselectedTest();

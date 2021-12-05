@@ -20,10 +20,10 @@ public class ThenAllFiguresAreDeselected extends Stage<ThenAllFiguresAreDeselect
     private DefaultDrawingView drawingView;
 
     @ExpectedScenarioState
-    private final int numberOfSelectedFigures = 0;
+    private final int numberOfexpectedSelectedFigures = 0;
 
     public ThenAllFiguresAreDeselected allFiguresAreDeselectedTest() {
-        Assert.assertEquals(numberOfSelectedFigures, drawingView.getSelectionCount());
+        Assert.assertEquals(numberOfexpectedSelectedFigures, drawingView.getSelectionCount());
 
         return self();
     }

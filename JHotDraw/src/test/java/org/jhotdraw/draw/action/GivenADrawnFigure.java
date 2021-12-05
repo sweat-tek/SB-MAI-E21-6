@@ -34,9 +34,6 @@ public class GivenADrawnFigure extends Stage<GivenADrawnFigure> {
     }
 
     public GivenADrawnFigure aDrawnFigure() {
-        Assert.assertNotNull(drawingView.getDrawing());
-        Assert.assertEquals(numberOfDrawnFigures, drawingView.getDrawing().getChildren().size());
-
         return self();
     }
     
