@@ -15,6 +15,8 @@
 package org.jhotdraw.app.action;
 
 import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
+import org.jhotdraw.draw.DefaultDrawingView;
+import org.jhotdraw.draw.DeleteEvent;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -48,7 +50,11 @@ public class DeleteAction extends TextAction {
                 getCurrentKeyboardFocusManager().
                 getPermanentFocusOwner();
         if (focusOwner != null && focusOwner instanceof EditableComponent) {
-            ((EditableComponent) focusOwner).delete();
+            DefaultDrawingView view = (DefaultDrawingView)focusOwner;
+            
+            DeleteEvent event = new DeleteEvent();
+            event.delete(view);
+            //((EditableComponent) focusOwner).delete();
         } else {
             deleteNextChar(evt);
         }

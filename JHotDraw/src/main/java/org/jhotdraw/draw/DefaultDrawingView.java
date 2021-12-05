@@ -1013,66 +1013,7 @@ public class DefaultDrawingView
         return t;
     }
 
-    @FeatureEntryPoint(JHotDrawFeatures.BASIC_EDITING)
-    public void delete() {
-        final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<CompositeFigureEvent>();
-        final java.util.List<Figure> deletedFigures = drawing.sort(getSelectedFigures());
-
-        // Abort, if not all of the selected figures may be removed from the
-        // drawing
-        for (Figure f : deletedFigures) {
-            if (!f.isRemovable()) {
-                getToolkit().beep();
-                return;
-
-            }
-
-
-        }
-
-        // Get z-indices of deleted figures
-        final int[] deletedFigureIndices = new int[deletedFigures.size()];
-        for (int i = 0; i <
-                deletedFigureIndices.length; i++) {
-            deletedFigureIndices[i] = drawing.indexOf(deletedFigures.get(i));
-        }
-
-        clearSelection();
-        getDrawing().removeAll(deletedFigures);
-
-        getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
-
-            @Override
-            public String getPresentationName() {
-                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                return labels.getString("edit.delete.text");
-            }
-
-            @Override
-            public void undo() throws CannotUndoException {
-                super.undo();
-                clearSelection();
-
-                Drawing d = getDrawing();
-                for (int i = 0; i <
-                        deletedFigureIndices.length; i++) {
-                    d.add(deletedFigureIndices[i], deletedFigures.get(i));
-                }
-
-                addToSelection(deletedFigures);
-            }
-
-            @Override
-            public void redo() throws CannotRedoException {
-                super.redo();
-                for (int i = 0; i <
-                        deletedFigureIndices.length; i++) {
-                    drawing.remove(deletedFigures.get(i));
-                }
-
-            }
-        });
-    }
+    
 
     @FeatureEntryPoint(JHotDrawFeatures.BASIC_EDITING)
     public void duplicate() {
