@@ -1,20 +1,5 @@
-/*
- * @(#)AbstractFigure.java   6.0  2000-02-13
- *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
- * and all its contributors.
- * All rights reserved.
- *
- * The copyright of this software is owned by the authors and  
- * contributors of the JHotDraw project ("the copyright holders").  
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
- * the copyright holders. For details see accompanying license terms. 
- */
 package org.jhotdraw.draw;
-
 import org.jhotdraw.beans.AbstractBean;
-import org.jhotdraw.util.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -23,29 +8,8 @@ import java.awt.geom.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;
-import java.io.*;
 import org.jhotdraw.geom.*;
 
-/**
- * AbstractFigure provides the functionality for managing listeners
- * for a Figure.
- *
- *
- * @author Werner Randelshofer
- * @version 7.0 2008-02-13 Huw Jones: Added methods to support
- * Figure.isTransformable().
- * <br>5.1 2007-12-19 Method invalidate only fires an areInvalidated
- * event, when the Figure is part of a Drawing. 
- * <br>5.0 2007-07-17 Extends from AbstractBean.
- * <br>4.0 2007-05-18 Removed addUndoableEditListener and
- * removeUndoableEditListener, isConnectorsVisible, setConnectorsVisible
- * methods due to changes in Figure interface.
- * <br>3.4 2007-02-09 Method fireFigureHandlesChanged added.
- * <br>3.3 Reworked.
- * <br>3.2 2006-01-05 Added method getChangingDepth().
- * <br>3.0 2006-01-20 Reworked for J2SE 1.5.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
- */
 public abstract class AbstractFigure
         extends AbstractBean
         implements Figure {
@@ -56,25 +20,12 @@ public abstract class AbstractFigure
     private boolean isRemovable = true;
     private boolean isVisible = true;
     private boolean isTransformable = true;
-    /**
-     * This variable is used to prevent endless change loops.
-     * We increase its value on each invocation of willChange() and
-     * decrease it on each invocation of changed().
-     */
+
     protected int changingDepth = 0;
 
-    /** Creates a new instance. */
     public AbstractFigure() {
     }
 
-    // DRAWING
-    // SHAPE AND BOUNDS
-    // ATTRIBUTES
-    // EDITING
-    // CONNECTING
-    // COMPOSITE FIGURES
-    // CLONING
-    // EVENT HANDLING
     public void addFigureListener(FigureListener l) {
         listenerList.add(FigureListener.class, l);
     }
@@ -101,29 +52,16 @@ public abstract class AbstractFigure
         return (getDrawing() == null) ? this : getDrawing().getLock();
     }
 
-    /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
-     */
     public void fireAreaInvalidated() {
         fireAreaInvalidated(getDrawingArea());
     }
 
-    /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
-     */
     protected void fireAreaInvalidated(Rectangle2D.Double invalidatedArea) {
         if (listenerList.getListenerCount() > 0) {
             FigureEvent event = null;
-            // Notify all listeners that have registered interest for
-            // Guaranteed to return a non-null array
             Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == FigureListener.class) {
-                    // Lazily create the event:
                     if (event == null) {
                         event = new FigureEvent(this, invalidatedArea);
                     }
@@ -133,16 +71,8 @@ public abstract class AbstractFigure
         }
     }
 
-    /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
-     */
     protected void fireAreaInvalidated(FigureEvent event) {
-        // Notify all listeners that have registered interest for
-        // Guaranteed to return a non-null array
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == FigureListener.class) {
                 ((FigureListener) listeners[i + 1]).areaInvalidated(event);
@@ -150,21 +80,14 @@ public abstract class AbstractFigure
         }
     }
 
-    /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
-     */
     protected void fireFigureRequestRemove() {
         if (listenerList.getListenerCount() > 0) {
             FigureEvent event = null;
-            // Notify all listeners that have registered interest for
-            // Guaranteed to return a non-null array
+
             Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
+
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == FigureListener.class) {
-                    // Lazily create the event:
                     if (event == null) {
                         event = new FigureEvent(this, getBounds());
                     }
@@ -174,21 +97,12 @@ public abstract class AbstractFigure
         }
     }
 
-    /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
-     */
     protected void fireFigureAdded() {
         if (listenerList.getListenerCount() > 0) {
             FigureEvent event = null;
-            // Notify all listeners that have registered interest for
-            // Guaranteed to return a non-null array
             Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == FigureListener.class) {
-                    // Lazily create the event:
                     if (event == null) {
                         event = new FigureEvent(this, getBounds());
                     }
@@ -198,21 +112,12 @@ public abstract class AbstractFigure
         }
     }
 
-    /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
-     */
     protected void fireFigureRemoved() {
         if (listenerList.getListenerCount() > 0) {
             FigureEvent event = null;
-            // Notify all listeners that have registered interest for
-            // Guaranteed to return a non-null array
             Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == FigureListener.class) {
-                    // Lazily create the event:
                     if (event == null) {
                         event = new FigureEvent(this, getBounds());
                     }
@@ -226,21 +131,12 @@ public abstract class AbstractFigure
         fireFigureChanged(getBounds());
     }
 
-    /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
-     */
     protected void fireFigureChanged(Rectangle2D.Double changedArea) {
         if (listenerList.getListenerCount() > 0) {
             FigureEvent event = null;
-            // Notify all listeners that have registered interest for
-            // Guaranteed to return a non-null array
             Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == FigureListener.class) {
-                    // Lazily create the event:
                     if (event == null) {
                         event = new FigureEvent(this, changedArea);
                     }
@@ -252,36 +148,22 @@ public abstract class AbstractFigure
 
     protected void fireFigureChanged(FigureEvent event) {
         if (listenerList.getListenerCount() > 0) {
-            // Notify all listeners that have registered interest for
-            // Guaranteed to return a non-null array
             Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == FigureListener.class) {
-                    // Lazily create the event:
                     ((FigureListener) listeners[i + 1]).figureChanged(event);
                 }
             }
         }
     }
 
-    /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
-     */
     protected void fireAttributeChanged(AttributeKey attribute, Object oldValue, Object newValue) {
         if (listenerList.getListenerCount() > 0 &&
                 (oldValue == null || newValue == null || !oldValue.equals(newValue))) {
             FigureEvent event = null;
-            // Notify all listeners that have registered interest for
-            // Guaranteed to return a non-null array
             Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == FigureListener.class) {
-                    // Lazily create the event:
                     if (event == null) {
                         event = new FigureEvent(this, attribute, oldValue, newValue);
                     }
@@ -291,22 +173,13 @@ public abstract class AbstractFigure
         }
     }
 
-    /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
-     */
     protected void fireFigureHandlesChanged() {
         Rectangle2D.Double changedArea = getDrawingArea();
         if (listenerList.getListenerCount() > 0) {
             FigureEvent event = null;
-            // Notify all listeners that have registered interest for
-            // Guaranteed to return a non-null array
             Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == FigureListener.class) {
-                    // Lazily create the event:
                     if (event == null) {
                         event = new FigureEvent(this, changedArea);
                     }
@@ -316,32 +189,21 @@ public abstract class AbstractFigure
         }
     }
 
-    /**
-     * Notify all UndoableEditListener of the Drawing, to which this Figure has
-     * been added to. If this Figure is not part of a Drawing, the event is
-     * lost.
-     */
     protected void fireUndoableEditHappened(UndoableEdit edit) {
         if (getDrawing() != null) {
             getDrawing().fireUndoableEditHappened(edit);
         }
     }
-    /*
-    public Set createHandles() {
-    return new HashSet();
-    }
-     */
 
     @Override
     public AbstractFigure clone() {
         AbstractFigure that = (AbstractFigure) super.clone();
         that.listenerList = new EventListenerList();
-        that.drawing = null; // Clones need to be explictly added to a drawing
+        that.drawing = null;
         return that;
     }
 
     public final AbstractFigure basicClone(HashMap<Figure, Figure> oldToNew) {
-        // XXX - Delete me
         return null;
     }
 
@@ -384,18 +246,10 @@ public abstract class AbstractFigure
         }
     }
 
-    /**
-     * Checks if this figure can be connected. By default
-     * AbstractFigures can be connected.
-     */
     public boolean canConnect() {
         return true;
     }
 
-    /**
-     * Invalidates cached data of the Figure.
-     * This method must execute fast, because it can be called very often. 
-     */
     protected void invalidate() {
     }
 
@@ -407,10 +261,6 @@ public abstract class AbstractFigure
         return changingDepth;
     }
 
-    /**
-     * Informs that a figure is about to change something that
-     * affects the contents of its display box.
-     */
     public void willChange() {
         if (changingDepth == 0) {
             fireAreaInvalidated();
@@ -422,9 +272,6 @@ public abstract class AbstractFigure
     protected void validate() {
     }
 
-    /**
-     * Informs that a figure changed the area of its display box.
-     */
     public void changed() {
         if (changingDepth == 1) {
             validate();
@@ -435,13 +282,6 @@ public abstract class AbstractFigure
         changingDepth--;
     }
 
-    /**
-     * Returns the Figures connector for the specified location.
-     * By default a ChopBoxConnector is returned.
-     *
-     *
-     * @see ChopRectangleConnector
-     */
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return new ChopRectangleConnector(this);
     }
@@ -458,27 +298,14 @@ public abstract class AbstractFigure
         return new ChopRectangleConnector(this);
     }
 
-    /**
-     * Returns a collection of actions which are presented to the user
-     * in a popup menu.
-     * <p>The collection may contain null entries. These entries are used
-     * interpreted as separators in the popup menu.
-     */
     public Collection<Action> getActions(Point2D.Double p) {
         return Collections.emptyList();
     }
 
-    /**
-     * Returns a specialized tool for the given coordinate.
-     * <p>Returns null, if no specialized tool is available.
-     */
     public Tool getTool(Point2D.Double p) {
         return null;
     }
 
-    /**
-     * Handles a mouse click.
-     */
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         return false;
     }
@@ -496,11 +323,6 @@ public abstract class AbstractFigure
         Rectangle2D.Double r = getBounds();
         return new Point2D.Double(r.x, r.y);
     }
-    /*
-    public Rectangle2D.Double getHitBounds() {
-    return getBounds();
-    }
-     */
 
     public Dimension2DDouble getPreferredSize() {
         Rectangle2D.Double r = getBounds();

@@ -1,19 +1,4 @@
-/*
- * @(#)AbstractAttributedFigure.java  4.1  2007-05-18
- *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
- * and all its contributors.
- * All rights reserved.
- *
- * The copyright of this software is owned by the authors and  
- * contributors of the JHotDraw project ("the copyright holders").  
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
- * the copyright holders. For details see accompanying license terms. 
- */
-
 package org.jhotdraw.draw;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -22,38 +7,16 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
-/**
- * A figure that can keep track of an open ended set of attributes.
- * <p>
- *
- * @author Werner Randelshofer
- * @version 4.1 2007-05-18 Changed due to changes in Figure interface.
- * <br>4.0 2007-01-03 Renamed from AttributedFigure to
- * AbstractAttributedFigure.
- * <br>3.2 2006-12-07 Changed method setAttributes(HashMap)
- * to setAttributes(Map);
- * <br>3.1 2006-06-17 Method chop(Point2D.Double) added.
- * <br>3.0 2006-06-07 Reworked.
- * <br>2.1 2006-02-20 Support for DoubleStroke added.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
- */
+
 public abstract class AbstractAttributedFigure extends AbstractFigure {
-    /**
-     * Holds the attributes of the figure.
-     */
+
     private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey,Object>();
-    /**
-     * Forbidden attributes can't be set by the setAttribute() operation.
-     * They can only be changed by setAttribute().
-     */
+
     private HashSet<AttributeKey> forbiddenAttributes;
-    
-    /** Creates a new instance. */
+
     public AbstractAttributedFigure() {
     }
-    
-    
+
     public void setAttributeEnabled(AttributeKey key, boolean b) {
         if (forbiddenAttributes == null) {
             forbiddenAttributes = new HashSet<AttributeKey>();
@@ -67,7 +30,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
     public boolean isAttributeEnabled(AttributeKey key) {
         return forbiddenAttributes == null || ! forbiddenAttributes.contains(key);
     }
-    
+
     @SuppressWarnings("unchecked")
     public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
@@ -85,11 +48,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
         attributes.clear();
         setAttributes((HashMap<AttributeKey,Object>) restoreData);
     }
-    /**
-     * Sets an attribute of the figure.
-     * AttributeKey name and semantics are defined by the class implementing
-     * the figure interface.
-     */
+
     public <T> void setAttribute(AttributeKey<T> key, T newValue) {
         if (forbiddenAttributes == null
                 || ! forbiddenAttributes.contains(key)) {
@@ -97,14 +56,12 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
             fireAttributeChanged(key, oldValue, newValue);
         }
     }
-    /**
-     * Gets an attribute from the figure.
-     */
+
     public <T> T getAttribute(AttributeKey<T> key) {
         return hasAttribute(key) ? key.get(attributes) : key.getDefaultValue();
     }
-    
-    
+
+
     public void draw(Graphics2D g) {
         if (AttributeKeys.FILL_COLOR.get(this) != null) {
             g.setColor(AttributeKeys.FILL_COLOR.get(this));
@@ -113,7 +70,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
         if (STROKE_COLOR.get(this) != null && STROKE_WIDTH.get(this) > 0d) {
             g.setStroke(AttributeKeys.getStroke(this));
             g.setColor(STROKE_COLOR.get(this));
-            
+
             drawStroke(g);
         }
         if (TEXT_COLOR.get(this) != null) {
@@ -129,17 +86,17 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
             drawText(g);
         }
     }
-    
+
     public Stroke getStroke() {
         return AttributeKeys.getStroke(this);
     }
-    
+
     public double getStrokeMiterLimitFactor() {
         Number value = (Number) getAttribute(AttributeKeys.STROKE_MITER_LIMIT);
         return (value != null) ? value.doubleValue() : 10f;
     }
-    
-    
+
+
     public Rectangle2D.Double getDrawingArea() {
         double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
         double width = strokeTotalWidth / 2d;
@@ -153,30 +110,13 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
         Geom.grow(r, width, width);
         return r;
     }
-    
-    /**
-     * This method is called by method draw() to draw the fill
-     * area of the figure. AbstractAttributedFigure configures the Graphics2D
-     * object with the FILL_COLOR attribute before calling this method.
-     * If the FILL_COLOR attribute is null, this method is not called.
-     */
+
     protected abstract void drawFill(java.awt.Graphics2D g);
-    /**
-     * This method is called by method draw() to draw the lines of the figure
-     *. AttributedFigure configures the Graphics2D object with
-     * the STROKE_COLOR attribute before calling this method.
-     * If the STROKE_COLOR attribute is null, this method is not called.
-     */
-    /**
-     * This method is called by method draw() to draw the text of the figure
-     * . AbstractAttributedFigure configures the Graphics2D object with
-     * the TEXT_COLOR attribute before calling this method.
-     * If the TEXT_COLOR attribute is null, this method is not called.
-     */
     protected abstract void drawStroke(java.awt.Graphics2D g);
+
     protected void drawText(java.awt.Graphics2D g) {
     }
-    
+
     public AbstractAttributedFigure clone() {
         AbstractAttributedFigure that = (AbstractAttributedFigure) super.clone();
         that.attributes = new HashMap<AttributeKey,Object>(this.attributes);
@@ -185,10 +125,10 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
         }
         return that;
     }
-    
+
     protected void writeAttributes(DOMOutput out) throws IOException {
         Figure prototype = (Figure) out.getPrototype();
-        
+
         boolean isElementOpen = false;
         for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
             AttributeKey key = entry.getKey();
@@ -213,6 +153,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
             out.closeElement();
         }
     }
+
     @SuppressWarnings("unchecked")
     protected void readAttributes(DOMInput in) throws IOException {
         if (in.getElementCount("a") > 0) {
@@ -233,23 +174,18 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
             in.closeElement();
         }
     }
-    
+
     protected AttributeKey getAttributeKey(String name) {
         return AttributeKeys.supportedAttributeMap.get(name);
     }
-    
-    
-    /**
-     * Applies all attributes of this figure to that figure.
-     */
+
     @SuppressWarnings("unchecked")
     protected void applyAttributesTo(Figure that) {
         for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
             entry.getKey().basicSet(that, entry.getValue());
         }
     }
-    
-    
+
     public void write(DOMOutput out) throws IOException {
         Rectangle2D.Double r = getBounds();
         out.addAttribute("x", r.x);
@@ -258,7 +194,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
         out.addAttribute("h", r.height);
         writeAttributes(out);
     }
-    
+
     public void read(DOMInput in) throws IOException {
         double x = in.getAttribute("x", 0d);
         double y = in.getAttribute("y", 0d);
@@ -267,7 +203,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
         setBounds(new Point2D.Double(x,y), new Point2D.Double(x+w,y+h));
         readAttributes(in);
     }
-    
+
     public <T> void removeAttribute(AttributeKey<T> key) {
         if (hasAttribute(key)) {
             T oldValue = key.get(this);
@@ -275,7 +211,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
             fireAttributeChanged(key, oldValue, key.getDefaultValue());
         }
     }
-    
+
     public boolean hasAttribute(AttributeKey key) {
         return attributes.containsKey(key);
     }
