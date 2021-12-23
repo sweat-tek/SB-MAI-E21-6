@@ -5,11 +5,11 @@
  * and all its contributors.
  * All rights reserved.
  *
- * The copyright of this software is owned by the authors and  
- * contributors of the JHotDraw project ("the copyright holders").  
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
- * the copyright holders. For details see accompanying license terms. 
+ * The copyright of this software is owned by the authors and
+ * contributors of the JHotDraw project ("the copyright holders").
+ * You may not use, copy or modify this software, except in
+ * accordance with the license agreement you entered into with
+ * the copyright holders. For details see accompanying license terms.
  */
 package org.jhotdraw.app;
 
@@ -28,7 +28,7 @@ import java.io.*;
  *
  *
  * @author Werner Randelshofer
- * @version 1.3 2007-12-24 Added support for active view. 
+ * @version 1.3 2007-12-24 Added support for active view.
  * <br>1.2 2007-11-25 Method View.clear is now invoked on a worker
  * thread.
  * <br>1.1 2006-05-01 System.exit(0) explicitly in method stop().
@@ -113,7 +113,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     /**
      * Sets the active view. Calls deactivate on the previously
      * active view, and then calls activate on the given view.
-     * 
+     *
      * @param newValue Active view, can be null.
      */
     public void setActiveView(View newValue) {
@@ -130,7 +130,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
     /**
      * Gets the active view.
-     * 
+     *
      * @return The active view, can be null.
      */
     public View getActiveView() {

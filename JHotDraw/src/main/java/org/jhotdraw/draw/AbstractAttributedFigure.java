@@ -14,8 +14,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
 
     private HashSet<AttributeKey> forbiddenAttributes;
 
-    public AbstractAttributedFigure() {
-    }
+    public AbstractAttributedFigure() {}
 
     public void setAttributeEnabled(AttributeKey key, boolean b) {
         if (forbiddenAttributes == null) {
@@ -27,6 +26,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
             forbiddenAttributes.add(key);
         }
     }
+
     public boolean isAttributeEnabled(AttributeKey key) {
         return forbiddenAttributes == null || ! forbiddenAttributes.contains(key);
     }
@@ -37,12 +37,15 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
             setAttribute(entry.getKey(), entry.getValue());
         }
     }
+
     public Map<AttributeKey, Object> getAttributes() {
         return new HashMap<AttributeKey,Object>(attributes);
     }
+
     public Object getAttributesRestoreData() {
         return getAttributes();
     }
+
     @SuppressWarnings("unchecked")
     public void restoreAttributesTo(Object restoreData) {
         attributes.clear();
@@ -74,8 +77,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
             drawStroke(g);
         }
         if (TEXT_COLOR.get(this) != null) {
-            if (TEXT_SHADOW_COLOR.get(this) != null &&
-                    TEXT_SHADOW_OFFSET.get(this) != null) {
+            if (checkShadowColor()) {
                 Dimension2DDouble d = TEXT_SHADOW_OFFSET.get(this);
                 g.translate(d.width, d.height);
                 g.setColor(TEXT_SHADOW_COLOR.get(this));
@@ -84,6 +86,14 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
             }
             g.setColor(TEXT_COLOR.get(this));
             drawText(g);
+        }
+    }
+
+    public boolean checkShadowColor() {
+        if (TEXT_SHADOW_COLOR.get(this) != null && TEXT_SHADOW_OFFSET.get(this) != null) {
+            return true;
+        } else {
+            return false;
         }
     }
 

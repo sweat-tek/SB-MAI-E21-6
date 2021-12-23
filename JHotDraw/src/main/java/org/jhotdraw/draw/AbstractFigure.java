@@ -88,9 +88,7 @@ public abstract class AbstractFigure
 
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == FigureListener.class) {
-                    if (event == null) {
-                        event = new FigureEvent(this, getBounds());
-                    }
+                    newEvent(event);
                     ((FigureListener) listeners[i + 1]).figureRequestRemove(event);
                 }
             }
@@ -103,9 +101,7 @@ public abstract class AbstractFigure
             Object[] listeners = listenerList.getListenerList();
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == FigureListener.class) {
-                    if (event == null) {
-                        event = new FigureEvent(this, getBounds());
-                    }
+                    newEvent(event);
                     ((FigureListener) listeners[i + 1]).figureAdded(event);
                 }
             }
@@ -118,9 +114,7 @@ public abstract class AbstractFigure
             Object[] listeners = listenerList.getListenerList();
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == FigureListener.class) {
-                    if (event == null) {
-                        event = new FigureEvent(this, getBounds());
-                    }
+                    newEvent(event);
                     ((FigureListener) listeners[i + 1]).figureRemoved(event);
                 }
             }
@@ -129,6 +123,13 @@ public abstract class AbstractFigure
 
     public void fireFigureChanged() {
         fireFigureChanged(getBounds());
+    }
+
+    public FigureEvent newEvent(FigureEvent event) {
+        if (event == null) {
+            event = new FigureEvent(this, getBounds());
+        }
+        return event;
     }
 
     protected void fireFigureChanged(Rectangle2D.Double changedArea) {

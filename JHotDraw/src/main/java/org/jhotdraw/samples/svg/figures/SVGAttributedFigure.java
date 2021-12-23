@@ -74,6 +74,7 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
             g.setTransform(savedTransform);
         }
     }
+
     @Override
     public <T> void setAttribute(AttributeKey<T> key, T newValue) {
         if (key == TRANSFORM) {
@@ -81,6 +82,7 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
         }
         super.setAttribute(key, newValue);
     }
+
     @Override public Collection<Action> getActions(Point2D.Double p) {
         LinkedList<Action> actions = new LinkedList<Action>();
         if (TRANSFORM.get(this) != null) {

@@ -115,12 +115,12 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         rectangle.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
     }
 
-    private void invalidateTransformedShape() {
+    public void invalidateTransformedShape() {
         cachedTransformedShape = null;
         cachedHitShape = null;
     }
 
-    private Shape getTransformedShape() {
+    public Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
             cachedTransformedShape = (Shape) rectangle.clone();
             if (TRANSFORM.get(this) != null) {
